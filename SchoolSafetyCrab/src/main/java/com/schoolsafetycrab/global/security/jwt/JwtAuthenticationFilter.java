@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +31,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getId(),user.getPassword());
             return getAuthenticationManager().authenticate(authenticationToken);
         }catch (IOException e){
-            log.error(e.getMessage());
             throw new ExceptionResponse(CustomException.ID_PASSWORD_INPUT_EXCEPTION);
         }
     }
@@ -40,7 +38,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         String accessToken = jwtProvider.generateAccessToken(authentication);
-        log.info(accessToken);
+        log.info("accessToken : {}", accessToken);
         response.addHeader("Authorization","Bearer "+accessToken);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write("Login Success");
