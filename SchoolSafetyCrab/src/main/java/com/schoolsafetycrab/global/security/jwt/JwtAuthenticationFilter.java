@@ -22,6 +22,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
+    private final JwtProvider jwtProvider;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -35,4 +36,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        String accessToken = jwtProvider.generateAccessToken(authentication);
+        log.info(accessToken);
+        response.addHeader("Authorization","Bearer "+accessToken);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("Login Success");
+    }
 }
