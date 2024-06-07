@@ -1,8 +1,10 @@
 package com.schoolsafetycrab.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.security.exceptionHandler.CustomExceptionHandler;
 import com.schoolsafetycrab.global.security.jwt.JwtAuthenticationFilter;
+import com.schoolsafetycrab.global.security.jwt.JwtAuthorizationFilter;
 import com.schoolsafetycrab.global.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,7 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomExceptionHandler customExceptionHandler;
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
 
     @Bean
@@ -37,6 +40,11 @@ public class SecurityConfig {
         filter.setFilterProcessesUrl("/api/login");
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
+    }
+
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter(){
+        return new JwtAuthorizationFilter(jwtProvider,userRepository);
     }
 
     @Bean
@@ -57,6 +65,7 @@ public class SecurityConfig {
         );
         http.exceptionHandling((handle) -> handle.authenticationEntryPoint(customExceptionHandler));
         http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(),UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
