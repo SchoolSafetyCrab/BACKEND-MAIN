@@ -1,7 +1,6 @@
 HELP.md
 
 resources
-*.properties
 application.properties
 
 .gradle
