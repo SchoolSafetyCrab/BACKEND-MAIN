@@ -28,9 +28,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = getAccessToken(request);
-        String email = jwtTokenProvider.getPayload(accessToken,request);
-        if(accessToken!= null && userRepository.existsByIdAAndState(email,true)){
-            User user = userRepository.findUserByIdAndState(email,true).orElseThrow(() -> new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION));
+        String id = jwtTokenProvider.getPayload(accessToken,request);
+        if(accessToken!= null && userRepository.existsUserByIdAndState(id,true)){
+            User user = userRepository.findUserByIdAndState(id,true).orElseThrow(() -> new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION));
             generateAuthentication(user);
         }
         filterChain.doFilter(request,response);
