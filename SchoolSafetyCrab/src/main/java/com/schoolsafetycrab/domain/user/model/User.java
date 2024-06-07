@@ -2,7 +2,7 @@ package com.schoolsafetycrab.domain.user.model;
 
 import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
 import com.schoolsafetycrab.global.exception.CustomException;
-import com.schoolsafetycrab.global.exception.ErrorResponse;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -75,6 +75,6 @@ public class User extends BaseTimeEntity {
         if(this.role != null){
             return Arrays.asList(this.role);
         }
-        throw new ErrorResponse(CustomException.NOT_EMPTY_ROLE_EXCEPTION);
+        throw new ExceptionResponse(CustomException.NOT_EMPTY_ROLE_EXCEPTION);
     }
 }

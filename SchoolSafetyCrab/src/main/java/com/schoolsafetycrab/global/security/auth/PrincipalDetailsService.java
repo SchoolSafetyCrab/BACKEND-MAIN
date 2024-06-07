@@ -3,8 +3,7 @@ package com.schoolsafetycrab.global.security.auth;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
-import com.schoolsafetycrab.global.exception.ErrorResponse;
-import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +21,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user = userRepository.findUserByIdAndState(id, true).orElseThrow(() ->
-                new ErrorResponse(CustomException.NOT_FOUND_USER_EXCEPTION)
+                new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION)
         );
         return new PrincipalDetails(user);
     }

@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.global.config;
 
+import com.schoolsafetycrab.global.security.exceptionHandler.CustomExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final CustomExceptionHandler customExceptionHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -39,6 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/parents").hasRole("PARENTS")
                 .anyRequest().denyAll()
         );
+        http.exceptionHandling((handle) -> handle.authenticationEntryPoint(customExceptionHandler));
         return http.build();
     }
 }
