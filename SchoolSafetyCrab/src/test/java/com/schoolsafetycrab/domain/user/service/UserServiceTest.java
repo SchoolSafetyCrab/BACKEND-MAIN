@@ -57,7 +57,21 @@ public class UserServiceTest {
         BDDMockito.then(userRepository).should().existsUserByPhoneNumber(requestDto.getPhoneNumber());
     }
 
+    @Test
+    @DisplayName("회원가입 예외 테스트 인증 번호 불일치")
+    public void 인증번호_불일치_회원가입_실패_테스트(){
+        //given
+        BDDMockito.given(numberAuthRepository.existsBuSuccessNumber(any())).willReturn(false);
 
+        //When
+        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_NUMBER_EXCEPTION);
+        BDDMockito.then(userRepository).shouldHaveNoInteractions();
+        BDDMockito.then(userRepository).shouldHaveNoInteractions();
+        //then
+        BDDMockito.then(numberAuthRepository).should().existsBuSuccessNumber(requestDto.getPhoneNumber());
+    }
 
 
 }
