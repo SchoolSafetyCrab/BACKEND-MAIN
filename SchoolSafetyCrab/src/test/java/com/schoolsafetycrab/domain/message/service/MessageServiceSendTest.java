@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-public class MessageServiceTest {
+public class MessageServiceSendTest {
 
     @InjectMocks
     private MessageService messageService;
