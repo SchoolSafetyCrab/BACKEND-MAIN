@@ -9,7 +9,7 @@ import java.util.Map;
 @Component
 public class HttpResponseUtil {
 
-    public ResponseEntity<?> createResponse(Object o){
+    public ResponseEntity<Map<String,Object>> createResponse(Object o){
         Map<String, Object> data = new HashMap<>();
         data.put("data",o);
         return ResponseEntity.ok().body(data);

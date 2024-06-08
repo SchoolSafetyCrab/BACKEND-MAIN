@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/join")
@@ -18,9 +20,10 @@ public class MessageController {
     private final MessageService messageService;
     private final HttpResponseUtil httpResponseUtil;
 
-    @PostMapping("/save/code")
+    @PostMapping("/send/code")
     public ResponseEntity<?> saveAuthCode(@RequestBody String phoneNumber){
         messageService.sendAuthCode(phoneNumber);
-        return httpResponseUtil.createResponse(SuccessMessage.SUCCESS_MESSAGE);
+        ResponseEntity<Map<String,Object>> response = httpResponseUtil.createResponse(SuccessMessage.SUCCESS_MESSAGE);
+        return response;
     }
 }

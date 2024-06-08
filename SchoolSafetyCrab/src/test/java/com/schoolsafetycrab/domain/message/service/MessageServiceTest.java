@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.message;
+package com.schoolsafetycrab.domain.message.service;
 
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
