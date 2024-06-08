@@ -13,6 +13,7 @@ public enum CustomException {
     ID_PASSWORD_INPUT_EXCEPTION(400,"IdPasswordInputException", "아이디 패스워드 입력이 잘못 되었습니다."),
     NOT_MATCH_AUTH_CODE(400,"NotMatchAuthCode","인증번호가 일치하지 않습니다."),
     DUPLICATED_NUMBER_EXCEPTION(400,"DuplicatedNumberException","가입된 전화번호가 존재합니다."),
+    DUPLICATED_ID_EXCEPTION(400,"DuplicatedIDException","가입된 아이디가 존재합니다."),
 
     //인증 에러 401
     EXPIRED_JWT_EXCEPTION(401,"ExpiredJwtException","토큰이 만료했습니다."),

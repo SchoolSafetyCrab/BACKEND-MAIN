@@ -1,38 +1,42 @@
 package com.schoolsafetycrab.domain.numberAuth.service;
 
-import com.schoolsafetycrab.domain.numberAuth.repository.MessageRepository;
+import com.schoolsafetycrab.domain.numberAuth.repository.NumberAuthRepository;
 import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
 import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class NumberAuthService {
 
-    private final MessageRepository messageRepository;
+    private final NumberAuthRepository numberAuthRepository;
 
+    @Transactional
     public String saveAuthCode(String phoneNumber){
         String authCode = createAuthCode();
         log.info("authCode : {} ", authCode);
 
-        messageRepository.saveAuth(phoneNumber,authCode);
+        numberAuthRepository.saveAuth(phoneNumber,authCode);
         return authCode;
     }
 
+    @Transactional
     public void checkAuthCode(CheckAuthCodeRequestDto requestDto){
         String phoneNumber = requestDto.getPhoneNumber();
         String authCode = requestDto.getAuthCode();
 
-        if(!messageRepository.checkAuth(phoneNumber,authCode)){
+        if(!numberAuthRepository.checkAuth(phoneNumber,authCode)){
             throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
         }
-        messageRepository.saveSuccessNumber(phoneNumber);
+        numberAuthRepository.saveSuccessNumber(phoneNumber);
     }
 
     private String createAuthCode(){

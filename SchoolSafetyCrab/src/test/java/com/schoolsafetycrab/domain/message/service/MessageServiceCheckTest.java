@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.message.service;
 
-import com.schoolsafetycrab.domain.numberAuth.repository.MessageRepository;
+import com.schoolsafetycrab.domain.numberAuth.repository.NumberAuthRepository;
 import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -22,7 +22,7 @@ public class MessageServiceCheckTest {
     private NumberAuthService numberAuthService;
 
     @Mock
-    private MessageRepository messageRepository;
+    private NumberAuthRepository numberAuthRepository;
 
     public CheckAuthCodeRequestDto requestDto;
 
@@ -35,25 +35,25 @@ public class MessageServiceCheckTest {
     @DisplayName("인증번호 검증 테스트")
     public void 인증번호_검증_테스트(){
         //given
-        BDDMockito.given(messageRepository.checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode())).willReturn(true);
+        BDDMockito.given(numberAuthRepository.checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode())).willReturn(true);
 
         //when
         Assertions.assertThatNoException().isThrownBy(() -> numberAuthService.checkAuthCode(requestDto));
 
         //then
-        BDDMockito.then(messageRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
+        BDDMockito.then(numberAuthRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
     }
 
     @Test
     @DisplayName("인증번호 검증 실패 테스트")
     public void 인증번호_검증_실패_테스트(){
         //given
-        BDDMockito.given(messageRepository.checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode())).willReturn(false);
+        BDDMockito.given(numberAuthRepository.checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode())).willReturn(false);
 
         Assertions.assertThatThrownBy(() -> numberAuthService.checkAuthCode(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException",CustomException.NOT_MATCH_AUTH_CODE);
 
-        BDDMockito.then(messageRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
+        BDDMockito.then(numberAuthRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
     }
 }

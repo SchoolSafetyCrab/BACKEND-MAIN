@@ -1,10 +1,7 @@
 package com.schoolsafetycrab.domain.numberAuth.repository;
 
-import com.schoolsafetycrab.global.exception.CustomException;
-import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -14,7 +11,7 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class MessageRepository {
+public class NumberAuthRepository {
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
@@ -32,6 +29,15 @@ public class MessageRepository {
         ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
         String value = (String)valueOperations.get(phoneNumber);
         if(!value.equals(authCode)){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean existsBuSuccessNumber(String phoneNumber){
+        ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
+        String value = (String)valueOperations.get(phoneNumber+"auth");
+        if(value == null){
             return false;
         }
         return true;
