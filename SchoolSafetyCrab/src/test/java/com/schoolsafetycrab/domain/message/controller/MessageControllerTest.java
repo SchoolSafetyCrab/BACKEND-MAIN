@@ -7,11 +7,7 @@ import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
-import com.schoolsafetycrab.global.exception.CustomException;
-import com.schoolsafetycrab.global.exception.ExceptionResponse;
-import com.schoolsafetycrab.global.exception.GlobalExceptionHandler;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -23,7 +19,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -34,9 +29,10 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.eq;
 
-@WebMvcTest(controllers = MessageController.class,  excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)})
-@ContextConfiguration(classes = {MessageController.class, GlobalExceptionHandler.class})
+@WebMvcTest(
+        controllers = MessageController.class,
+        excludeFilters ={@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
+)
 public class MessageControllerTest {
 
     @Autowired
