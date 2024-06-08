@@ -32,7 +32,7 @@ public class MessageRepository {
         ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
         String value = (String)valueOperations.get(phoneNumber);
         if(!value.equals(authCode)){
-            throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
+            return false;
         }
         return true;
     }

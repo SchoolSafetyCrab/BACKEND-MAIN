@@ -2,6 +2,8 @@ package com.schoolsafetycrab.domain.numberAuth.service;
 
 import com.schoolsafetycrab.domain.numberAuth.repository.MessageRepository;
 import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
+import com.schoolsafetycrab.global.exception.CustomException;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,9 @@ public class NumberAuthService {
         String phoneNumber = requestDto.getPhoneNumber();
         String authCode = requestDto.getAuthCode();
 
-        messageRepository.checkAuth(phoneNumber,authCode);
+        if(!messageRepository.checkAuth(phoneNumber,authCode)){
+            throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
+        }
         messageRepository.saveSuccessNumber(phoneNumber);
     }
 
