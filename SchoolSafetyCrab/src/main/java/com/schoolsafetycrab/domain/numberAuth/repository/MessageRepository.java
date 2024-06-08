@@ -28,12 +28,12 @@ public class MessageRepository {
         valueOperations.set(phoneNumber+"auth","success",Duration.ofMinutes(5));
     }
 
-    public String checkAuth(String phoneNumber, String authCode){
+    public boolean checkAuth(String phoneNumber, String authCode){
         ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
         String value = (String)valueOperations.get(phoneNumber);
         if(!value.equals(authCode)){
             throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
         }
-        return value;
+        return true;
     }
 }

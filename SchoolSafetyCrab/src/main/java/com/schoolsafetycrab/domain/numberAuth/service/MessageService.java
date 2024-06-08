@@ -36,6 +36,6 @@ public class MessageService {
     }
 
     private String createMessage(String authCode){
-        return "인증 번호는" + authCode + "입니다";
+        return "인증 번호는 " + authCode + " 입니다";
     }
 }

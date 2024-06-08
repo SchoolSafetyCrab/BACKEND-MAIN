@@ -1,9 +1,11 @@
 package com.schoolsafetycrab.domain.numberAuth.requestDto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class CheckAuthCodeRequestDto {
 
     @NotBlank

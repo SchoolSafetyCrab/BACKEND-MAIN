@@ -1,0 +1,44 @@
+package com.schoolsafetycrab.domain.message.service;
+
+import com.schoolsafetycrab.domain.numberAuth.repository.MessageRepository;
+import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
+import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+public class MessageServiceCheckTest {
+
+    @InjectMocks
+    private NumberAuthService numberAuthService;
+
+    @Mock
+    private MessageRepository messageRepository;
+
+    public CheckAuthCodeRequestDto requestDto;
+
+    @BeforeEach
+    public void setUp(){
+        requestDto = new CheckAuthCodeRequestDto("01011111111","12345678");
+    }
+
+    @Test
+    @DisplayName("인증번호 검증 테스트")
+    public void 인증번호_검증_테스트(){
+        //given
+        BDDMockito.given(messageRepository.checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode())).willReturn(true);
+
+        //when
+        Assertions.assertThatNoException().isThrownBy(() -> numberAuthService.checkAuthCode(requestDto));
+
+        //then
+        BDDMockito.then(messageRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
+    }
+}
