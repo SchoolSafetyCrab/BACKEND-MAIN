@@ -25,11 +25,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private JwtProvider jwtTokenProvider;
     private UserRepository userRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = getAccessToken(request);
-        String id = jwtTokenProvider.getPayload(accessToken,request);
-        if(accessToken!= null && userRepository.existsUserByIdAndState(id,true)){
+        if(accessToken!= null && userRepository.existsUserByIdAndState(getTokenPayLoad(accessToken,request),true)){
+            String id = getTokenPayLoad(accessToken,request);
             User user = userRepository.findUserByIdAndState(id,true).orElseThrow(() -> new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION));
             generateAuthentication(user);
         }
@@ -41,6 +42,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         log.info("bearerToken : {}", bearerToken);
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
             return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    private String getTokenPayLoad(String token, HttpServletRequest request){
+        if(jwtTokenProvider.validateToken(token,request)){
+            return jwtTokenProvider.getPayload(token,request);
         }
         return null;
     }
