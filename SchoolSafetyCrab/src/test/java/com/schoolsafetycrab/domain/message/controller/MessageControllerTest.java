@@ -3,7 +3,9 @@ package com.schoolsafetycrab.domain.message.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.numberAuth.controller.MessageController;
 import com.schoolsafetycrab.domain.numberAuth.message.SuccessMessage;
+import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
+import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
@@ -45,6 +47,9 @@ public class MessageControllerTest {
     private MessageService messageService;
 
     @MockBean
+    private NumberAuthService numberAuthService;
+
+    @MockBean
     private HttpResponseUtil httpResponseUtil;
 
     @Test
@@ -63,6 +68,27 @@ public class MessageControllerTest {
 
         //then
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/join/send/code")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("인증번호 검증 성공 테스트")
+    @WithMockAuthUser(id = "test@gmail.com", roles = Role.ROLE_STUDENT)
+    public void 인증번호_검증_성공() throws Exception{
+        //given
+        CheckAuthCodeRequestDto requestDto = new CheckAuthCodeRequestDto("01011111111","12345678");
+        String requestBody = objectMapper.writeValueAsString(requestDto);
+        Map<String, Object> mockResponseData = new HashMap<>();
+
+        //when
+        BDDMockito.doNothing().when(numberAuthService).checkAuthCode(requestDto);
+        BDDMockito.given(httpResponseUtil.createResponse(eq(SuccessMessage.SUCCESS_CHECK_AUTH)))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/join/check/code")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody));
