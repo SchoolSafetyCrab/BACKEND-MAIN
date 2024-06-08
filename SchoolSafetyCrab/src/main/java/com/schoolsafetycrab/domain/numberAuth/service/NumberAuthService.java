@@ -1,6 +1,7 @@
 package com.schoolsafetycrab.domain.numberAuth.service;
 
 import com.schoolsafetycrab.domain.numberAuth.repository.MessageRepository;
+import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ public class NumberAuthService {
 
         messageRepository.saveAuth(phoneNumber,authCode);
         return authCode;
+    }
+
+    public void checkAuthCode(CheckAuthCodeRequestDto requestDto){
+        String phoneNumber = requestDto.getPhoneNumber();
+        String authCode = requestDto.getAuthCode();
+
+        messageRepository.checkAuth(phoneNumber,authCode);
+        messageRepository.saveSuccessNumber(phoneNumber);
     }
 
     private String createAuthCode(){

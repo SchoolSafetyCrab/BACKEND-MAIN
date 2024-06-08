@@ -1,5 +1,7 @@
 package com.schoolsafetycrab.domain.numberAuth.repository;
 
+import com.schoolsafetycrab.global.exception.CustomException;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,5 +21,19 @@ public class MessageRepository {
     public void saveAuth(String phoneNumber, Object authCode){
         ValueOperations<Object, Object> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(phoneNumber, authCode, Duration.ofMinutes(5));
+    }
+
+    public void saveSuccessNumber(String phoneNumber){
+        ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(phoneNumber+"auth","success",Duration.ofMinutes(5));
+    }
+
+    public String checkAuth(String phoneNumber, String authCode){
+        ValueOperations<Object,Object> valueOperations = redisTemplate.opsForValue();
+        String value = (String)valueOperations.get(phoneNumber);
+        if(!value.equals(authCode)){
+            throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
+        }
+        return value;
     }
 }
