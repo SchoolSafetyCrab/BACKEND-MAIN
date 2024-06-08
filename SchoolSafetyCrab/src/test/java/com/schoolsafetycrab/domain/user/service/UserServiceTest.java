@@ -39,10 +39,10 @@ public class UserServiceTest {
     public void setup(){
         requestDto = new SignUpRequestDto("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
     }
+
     @Test
     @DisplayName("회원가입 테스트")
     public void 회원가입_테스트(){
-
         //given
         BDDMockito.given(numberAuthRepository.existsBuSuccessNumber(any())).willReturn(true);
         BDDMockito.given(userRepository.existsUserById(any())).willReturn(false);
@@ -73,5 +73,39 @@ public class UserServiceTest {
         BDDMockito.then(numberAuthRepository).should().existsBuSuccessNumber(requestDto.getPhoneNumber());
     }
 
+    @Test
+    @DisplayName("회원가입 ID 존재 실패 테스트")
+    public void 회원가입_ID_존재_실패_테스트(){
+        //given
+        BDDMockito.given(numberAuthRepository.existsBuSuccessNumber(any())).willReturn(true);
+        BDDMockito.given(userRepository.existsUserById(any())).willReturn(true);
 
+        // when
+        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_ID_EXCEPTION);
+
+        //then
+        BDDMockito.then(numberAuthRepository).should().existsBuSuccessNumber(requestDto.getPhoneNumber());
+        BDDMockito.then(userRepository).should().existsUserById(requestDto.getId());
+    }
+
+    @Test
+    @DisplayName("회원가입 번호 존재 실패 테스트")
+    public void 회원가입_번호_존재_실패_테스트(){
+        //given
+        BDDMockito.given(numberAuthRepository.existsBuSuccessNumber(any())).willReturn(true);
+        BDDMockito.given(userRepository.existsUserById(any())).willReturn(false);
+        BDDMockito.given(userRepository.existsUserByPhoneNumber(any())).willReturn(true);
+
+        // when
+        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_NUMBER_EXCEPTION);
+
+        //then
+        BDDMockito.then(numberAuthRepository).should().existsBuSuccessNumber(requestDto.getPhoneNumber());
+        BDDMockito.then(userRepository).should().existsUserById(requestDto.getId());
+        BDDMockito.then(userRepository).should().existsUserByPhoneNumber(requestDto.getPhoneNumber());
+    }
 }
