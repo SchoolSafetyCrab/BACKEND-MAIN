@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserSignUpServiceTest {
 
     @InjectMocks
     private UserService userService;
