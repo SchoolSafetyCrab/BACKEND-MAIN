@@ -49,6 +49,9 @@ dependencies {
     // message
     implementation 'net.nurigo:sdk:4.2.7'
 
+    //valid
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
