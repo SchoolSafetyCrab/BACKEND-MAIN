@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/join")
-public class SignupController {
+public class SignUpController {
 
     private final UserService userService;
     private final HttpResponseUtil responseUtil;
