@@ -3,11 +3,13 @@ package com.schoolsafetycrab.domain.user.requestDto;
 import com.schoolsafetycrab.domain.user.model.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SignUpRequestDto {
 
     @NotBlank

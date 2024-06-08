@@ -22,7 +22,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id", nullable = false)
     private long userId;
 
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private String id;
 
     @Column(name = "password", nullable = false)
@@ -35,9 +35,10 @@ public class User extends BaseTimeEntity {
     private String iconImg;
 
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "phone_number", nullable = false, length = 13)
+    @Column(name = "phone_number", nullable = false, length = 13, unique = true)
     private String phoneNumber;
 
     @Column(name = "state", nullable = false)
