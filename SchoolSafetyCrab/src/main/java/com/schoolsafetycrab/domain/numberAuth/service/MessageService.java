@@ -29,7 +29,6 @@ public class MessageService {
 
         Message message = new Message();
         message.setFrom("01029463517");
-        System.out.println(Integer.parseInt(phoneNumber));
         message.setTo(phoneNumber);
         message.setText(text);
 
