@@ -1,0 +1,53 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+
+    - name: Make application.properties
+      run: |
+          cd ./src/main/resources
+          touch application.properties
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" >> ./application.properties
+    
+    - name: Grant execute permission for gradlew
+      run: |        
+          chmod +x gradlew
+    
+    - name: Build with Gradle Wrapper
+      run: ./gradlew clean build
+
+    - name: web docker build and push
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker build --no-cache -t ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main .
+        docker push ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main
+    
+    - name: remote server
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          password: ${{secrets.PASSWORD}}
+          port: ${{secrets.PORT}}
+          script: |
+            ./depoly.sh
+
