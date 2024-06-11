@@ -55,5 +55,5 @@ jobs:
           password: ${{secrets.PASSWORD}}
           port: ${{secrets.PORT}}
           script: |
-            ./depoly.sh
+            ./deploy.sh
 
