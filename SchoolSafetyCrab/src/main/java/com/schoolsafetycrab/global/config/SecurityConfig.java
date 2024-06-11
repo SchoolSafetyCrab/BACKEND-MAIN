@@ -56,16 +56,16 @@ public class SecurityConfig {
         );
         http.formLogin((formLogin) -> formLogin.disable());
         http.authorizeHttpRequests((request) -> request
-                .requestMatchers("/api/join").permitAll()
+                .requestMatchers("/api/join/**").permitAll()
                 .requestMatchers("/api/login").permitAll()
-                .requestMatchers("/api/student").hasRole("STUDENT")
-                .requestMatchers("/api/teacher").hasRole("TEACHER")
-                .requestMatchers("/api/parents").hasRole("PARENTS")
+                .requestMatchers("/api/student/**").hasRole("STUDENT")
+                .requestMatchers("/api/teacher/**").hasRole("TEACHER")
+                .requestMatchers("/api/parents/**").hasRole("PARENTS")
                 .anyRequest().denyAll()
         );
         http.exceptionHandling((handle) -> handle.authenticationEntryPoint(customExceptionHandler));
-        http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthorizationFilter(),UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

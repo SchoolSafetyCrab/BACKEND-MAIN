@@ -22,7 +22,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id", nullable = false)
     private long userId;
 
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private String id;
 
     @Column(name = "password", nullable = false)
@@ -35,30 +35,27 @@ public class User extends BaseTimeEntity {
     private String iconImg;
 
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "phone_number", nullable = false, length = 13)
+    @Column(name = "phone_number", nullable = false, length = 13, unique = true)
     private String phoneNumber;
-
-    @Column(name = "guardian_code", nullable = false)
-    private String guardianCode;
 
     @Column(name = "state", nullable = false)
     private boolean state;
 
     @Builder
-    private User(String id, String password, String nickname, String iconImg, Role role, String phoneNumber, String guardianCode, boolean state) {
+    private User(String id, String password, String nickname, String iconImg, Role role, String phoneNumber, boolean state) {
         this.id = id;
         this.password = password;
         this.nickname = nickname;
         this.iconImg = iconImg;
         this.role = role;
         this.phoneNumber = phoneNumber;
-        this.guardianCode = guardianCode;
         this.state = state;
     }
 
-    public static User createUser(String id, String password, String nickname, String iconImg, Role role, String phoneNumber, String guardianCode, boolean state){
+    public static User createUser(String id, String password, String nickname, String iconImg, Role role, String phoneNumber){
         return User.builder()
                 .id(id)
                 .password(password)
@@ -66,8 +63,7 @@ public class User extends BaseTimeEntity {
                 .iconImg(iconImg)
                 .role(role)
                 .phoneNumber(phoneNumber)
-                .guardianCode(guardianCode)
-                .state(state)
+                .state(true)
                 .build();
     }
 
