@@ -25,7 +25,7 @@ jobs:
     - name: Make application.properties
       run: |
           cd ./SchoolSafetyCrab/src/main
-          rmdir resources
+          mk resources
           cd resources
           touch application.properties
           echo "${{ secrets.APPLICATION_PROPERTIES }}" >> ./application.properties
