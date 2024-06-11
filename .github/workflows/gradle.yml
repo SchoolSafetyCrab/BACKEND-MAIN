@@ -42,6 +42,7 @@ jobs:
 
     - name: web docker build and push
       run: |
+        cd ./SchoolSafetyCrab
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker build --no-cache -t ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main .
         docker push ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main
