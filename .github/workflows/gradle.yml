@@ -31,11 +31,14 @@ jobs:
           echo "${{ secrets.APPLICATION_PROPERTIES }}" >> ./application.properties
     
     - name: Grant execute permission for gradlew
-      run: |        
+      run: |   
+          cd ./SchoolSafetyCrab
           chmod +x gradlew
     
     - name: Build with Gradle Wrapper
-      run: ./gradlew clean build
+      run: |   
+          cd ./SchoolSafetyCrab
+          ./gradlew clean build
 
     - name: web docker build and push
       run: |
