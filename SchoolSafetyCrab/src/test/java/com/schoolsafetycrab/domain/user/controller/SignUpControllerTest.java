@@ -1,7 +1,7 @@
 package com.schoolsafetycrab.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.schoolsafetycrab.domain.user.message.SuccessMessage;
+import com.schoolsafetycrab.domain.user.message.SuccessSignUpMessage;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
 import com.schoolsafetycrab.domain.user.service.SignUpService;
@@ -69,7 +69,7 @@ public class SignUpControllerTest {
 
         //when
         BDDMockito.doNothing().when(signUpService).saveUser(requestDto);
-        BDDMockito.given(httpResponseUtil.createResponse(eq(SuccessMessage.SUCCESS_SIGNUP)))
+        BDDMockito.given(httpResponseUtil.createResponse(eq(SuccessSignUpMessage.SUCCESS_SIGNUP)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/join")

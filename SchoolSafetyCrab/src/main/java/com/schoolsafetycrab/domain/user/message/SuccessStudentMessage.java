@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SuccessMessage {
+public enum SuccessStudentMessage {
 
-    SUCCESS_SIGNUP("회원가입 성공"),
-    SUCCESS_CHECK_ID("아이디 중복 체크 성공")
+    SUCCESS_DESIGNATE_GUARDIAN("보호자 지정 성공")
     ;
 
     private final String message;
