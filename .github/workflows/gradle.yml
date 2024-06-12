@@ -43,8 +43,10 @@ jobs:
       run: |
         cd ./SchoolSafetyCrab
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main .
-        docker push ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main
+        docker build --no-cache -t ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main-blue .
+        docker push ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main-blue
+        docker build --no-cache -t ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main-green .
+        docker push ${{ secrets.DOCKER_REPO }}/schoolsafetycrab-back-main-green
     
     - name: remote server
       uses: appleboy/ssh-action@master
