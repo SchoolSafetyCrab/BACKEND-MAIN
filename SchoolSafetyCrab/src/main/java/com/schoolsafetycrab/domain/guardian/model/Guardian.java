@@ -22,4 +22,13 @@ public class Guardian {
 
     @Column(name = "id")
     private String id;
+
+    private Guardian(User user, String id) {
+        this.user = user;
+        this.id = id;
+    }
+
+    public static Guardian createGuardian(User user, String id){
+        return new Guardian(user,id);
+    }
 }
