@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.message.service;
 
+import com.schoolsafetycrab.domain.numberAuth.requestDto.SendAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
@@ -9,6 +10,7 @@ import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,23 +40,29 @@ public class MessageServiceSendTest {
     private DefaultMessageService defaultMessageService;
 
 
+    public SendAuthCodeRequestDto requestDto;
+
+    @BeforeEach
+    public void setUp(){
+        requestDto = new SendAuthCodeRequestDto("010-1111-1111");
+    }
+
     @Test
     @DisplayName("인증번호 보내기 테스트")
     public void 인증_번호_보내기(){
         //given
-        String phoneNumber = "01029463517";
         String authCode = "123456";
 
-        BDDMockito.given(userRepository.existsUserByPhoneNumber(phoneNumber)).willReturn(false);
-        BDDMockito.given(numberAuthService.saveAuthCode(phoneNumber)).willReturn(authCode);
+        BDDMockito.given(userRepository.existsUserByPhoneNumber(requestDto.getPhoneNumber())).willReturn(false);
+        BDDMockito.given(numberAuthService.saveAuthCode(requestDto.getPhoneNumber())).willReturn(authCode);
         BDDMockito.given(messageValueConfig.getDefaultMessageService()).willReturn(defaultMessageService);
 
         //when
-        Assertions.assertThatNoException().isThrownBy(() -> messageService.sendAuthCode(phoneNumber));
+        Assertions.assertThatNoException().isThrownBy(() -> messageService.sendAuthCode(requestDto));
 
         //then
-        BDDMockito.then(userRepository).should().existsUserByPhoneNumber(phoneNumber);
-        BDDMockito.then(numberAuthService).should().saveAuthCode(phoneNumber);
+        BDDMockito.then(userRepository).should().existsUserByPhoneNumber(requestDto.getPhoneNumber());
+        BDDMockito.then(numberAuthService).should().saveAuthCode(requestDto.getPhoneNumber());
         BDDMockito.then(defaultMessageService).should().sendOne(any(SingleMessageSendingRequest.class));
     }
 
@@ -62,17 +70,15 @@ public class MessageServiceSendTest {
     @DisplayName("이미 회원인 전화번호 예외 테스트")
     public void 전화번호_예외_테스트(){
         //given
-        String phoneNumber = "01029463517";
-
-        BDDMockito.given(userRepository.existsUserByPhoneNumber(phoneNumber)).willReturn(true);
+        BDDMockito.given(userRepository.existsUserByPhoneNumber(requestDto.getPhoneNumber())).willReturn(true);
 
         //when
-        Assertions.assertThatThrownBy(() ->  messageService.sendAuthCode(phoneNumber))
+        Assertions.assertThatThrownBy(() ->  messageService.sendAuthCode(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_NUMBER_EXCEPTION);
 
         // then
-        BDDMockito.then(userRepository).should().existsUserByPhoneNumber(phoneNumber);
+        BDDMockito.then(userRepository).should().existsUserByPhoneNumber(requestDto.getPhoneNumber());
         BDDMockito.then(numberAuthService).shouldHaveNoInteractions();
         BDDMockito.then(defaultMessageService).shouldHaveNoInteractions();
     }
