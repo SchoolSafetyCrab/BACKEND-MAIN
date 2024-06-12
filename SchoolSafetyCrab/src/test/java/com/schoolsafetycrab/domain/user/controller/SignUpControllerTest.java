@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.user.message.SuccessMessage;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
-import com.schoolsafetycrab.domain.user.service.UserService;
+import com.schoolsafetycrab.domain.user.service.SignUpService;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
@@ -47,7 +47,7 @@ public class SignUpControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private UserService userService;
+    private SignUpService signUpService;
 
     @MockBean
     private HttpResponseUtil httpResponseUtil;
@@ -68,7 +68,7 @@ public class SignUpControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
 
         //when
-        BDDMockito.doNothing().when(userService).saveUser(requestDto);
+        BDDMockito.doNothing().when(signUpService).saveUser(requestDto);
         BDDMockito.given(httpResponseUtil.createResponse(eq(SuccessMessage.SUCCESS_SIGNUP)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
