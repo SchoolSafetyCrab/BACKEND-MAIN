@@ -7,7 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SuccessMessage {
 
-    SUCCESS_SIGNUP("회원가입 성공");
+    SUCCESS_SIGNUP("회원가입 성공"),
+    SUCCESS_CHECK_ID("아이디 중복 체크 성공")
+    ;
 
     private final String message;
 }

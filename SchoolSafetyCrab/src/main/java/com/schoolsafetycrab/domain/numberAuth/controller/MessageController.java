@@ -2,6 +2,7 @@ package com.schoolsafetycrab.domain.numberAuth.controller;
 
 import com.schoolsafetycrab.domain.numberAuth.message.SuccessMessage;
 import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
+import com.schoolsafetycrab.domain.numberAuth.requestDto.SendAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
@@ -24,8 +25,8 @@ public class MessageController {
     private final HttpResponseUtil httpResponseUtil;
 
     @PostMapping("/send/code")
-    public ResponseEntity<?> saveAuthCode(@RequestBody String phoneNumber){
-        messageService.sendAuthCode(phoneNumber);
+    public ResponseEntity<?> saveAuthCode(@RequestBody SendAuthCodeRequestDto requestDto){
+        messageService.sendAuthCode(requestDto);
         ResponseEntity<Map<String,Object>> response = httpResponseUtil.createResponse(SuccessMessage.SUCCESS_MESSAGE);
         return response;
     }
