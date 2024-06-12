@@ -3,6 +3,7 @@ package com.schoolsafetycrab.domain.user.service;
 import com.schoolsafetycrab.domain.numberAuth.repository.NumberAuthRepository;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
+import com.schoolsafetycrab.domain.user.requestDto.CheckIdRequestDto;
 import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
 import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
@@ -38,5 +39,12 @@ public class UserService {
 
         User user = User.createUser(requestDto.getId(), passwordEncoder.encode(requestDto.getPassword()), requestDto.getNickname(), requestDto.getIconImg(), requestDto.getRole(),requestDto.getPhoneNumber());
         userRepository.save(user);
+    }
+
+    public boolean checkId(CheckIdRequestDto requestDto){
+        if(userRepository.existsUserById(requestDto.getId())){
+            throw new ExceptionResponse(CustomException.DUPLICATED_ID_EXCEPTION);
+        }
+        return true;
     }
 }
