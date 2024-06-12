@@ -1,10 +1,8 @@
 package com.schoolsafetycrab.domain.user.service;
 
 import com.schoolsafetycrab.domain.numberAuth.repository.NumberAuthRepository;
-import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.domain.user.requestDto.CheckIdRequestDto;
-import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserCheckIdServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private SignUpService signUpService;
 
     @Mock
     private NumberAuthRepository numberAuthRepository;
@@ -45,7 +43,7 @@ public class UserCheckIdServiceTest {
         BDDMockito.given(userRepository.existsUserById(requestDto.getId())).willReturn(false);
 
         //when
-        boolean check = userService.checkId(requestDto);
+        boolean check = signUpService.checkId(requestDto);
 
         //then
         Assertions.assertThat(check).isTrue();
