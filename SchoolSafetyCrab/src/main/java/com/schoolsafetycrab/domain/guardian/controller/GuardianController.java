@@ -12,9 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/parents")
 public class GuardianController {
 
-    @GetMapping
-    public ResponseEntity<?> myChildren(Authentication authentication){
-
-    }
 
 }

@@ -19,9 +19,5 @@ public class GuardianService {
 
     private final GuardianRepository guardianRepository;
 
-    public List<User> myChildren(Authentication authentication){
-        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
-
-    }
 }
