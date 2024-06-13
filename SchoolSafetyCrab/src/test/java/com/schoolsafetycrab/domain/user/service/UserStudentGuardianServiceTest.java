@@ -21,10 +21,8 @@ import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-
 @ExtendWith(MockitoExtension.class)
-public class UserStudentGuardianTest {
+public class UserStudentGuardianServiceTest {
 
     @InjectMocks
     private StudentService studentService;
@@ -37,6 +35,7 @@ public class UserStudentGuardianTest {
 
     @Mock
     private Authentication authentication;
+
     @Mock
     private PrincipalDetails principalDetails;
 
@@ -50,6 +49,7 @@ public class UserStudentGuardianTest {
         guardian = User.createUser("test1","test","test","test", Role.ROLE_PARENTS,"010-1111-1112");
         requestDto = new DesignateGuardianRequestDto("test1");
     }
+
     @Test
     @DisplayName("보호자 지정 테스트")
     public void 보호자_지정_성공_테스트(){
