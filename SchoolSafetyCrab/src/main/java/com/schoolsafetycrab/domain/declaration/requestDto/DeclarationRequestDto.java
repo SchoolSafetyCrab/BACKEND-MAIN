@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.user.requestDto;
+package com.schoolsafetycrab.domain.declaration.requestDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -9,8 +9,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class DesignateGuardianRequestDto {
+public class DeclarationRequestDto {
 
     @NotBlank
-    private String guardianId;
+    private String latitude;
+
+    @NotBlank
+    private String longitude;
+
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String detail;
 }
