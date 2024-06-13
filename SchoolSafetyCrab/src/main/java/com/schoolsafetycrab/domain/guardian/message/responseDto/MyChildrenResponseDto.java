@@ -2,9 +2,11 @@ package com.schoolsafetycrab.domain.guardian.message.responseDto;
 
 import com.schoolsafetycrab.domain.user.model.User;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class MyChildrenResponseDto {
 
     private String userId;
