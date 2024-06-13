@@ -51,8 +51,8 @@ public class UserStudentGuardianTest {
         requestDto = new DesignateGuardianRequestDto("test1");
     }
     @Test
-    @DisplayName("부모 지정 테스트")
-    public void 부모_지정_성공_테스트(){
+    @DisplayName("보호자 지정 테스트")
+    public void 보호자_지정_성공_테스트(){
         //given
         BDDMockito.given(userRepository.findUserByIdAndState(guardian.getId(),true)).willReturn(Optional.ofNullable(guardian));
         BDDMockito.given(guardianRepository.existsGuardianByUserAndId(user,guardian.getId())).willReturn(false);
@@ -68,18 +68,40 @@ public class UserStudentGuardianTest {
     }
 
     @Test
-    @DisplayName("부모 지정 실패 테스트 보호자 아이디 존재하지 않음")
-    public void 부모_지정_실패_테스트_보호자_아이디_존재하지_않음(){
+    @DisplayName("보호자 지정 실패 테스트 보호자 아이디 존재하지 않음")
+    public void 보호자_지정_실패_테스트_보호자_아이디_존재하지_않음_테스트(){
         //given
-        BDDMockito.given(userRepository.findUserByIdAndState(guardian.getId(),true)).willThrow(new ExceptionResponse(CustomException.DUPLICATED_GUARDIAN_ID_EXCEPTION));
+        BDDMockito.given(userRepository.findUserByIdAndState(guardian.getId(),true)).willThrow(new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION));
         BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
         BDDMockito.given(principalDetails.getUser()).willReturn(user);
 
+        //when
+        Assertions.assertThatThrownBy(() -> studentService.designateGuardian(authentication,requestDto))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.NOT_FOUND_USER_EXCEPTION);
+
+        //then
+        BDDMockito.then(userRepository).should().findUserByIdAndState(guardian.getId(),true);
+        BDDMockito.then(authentication).should().getPrincipal();
+        BDDMockito.then(principalDetails).should().getUser();
+    }
+
+    @Test
+    @DisplayName("보호자 지정 실패 테스트 보호자 존재")
+    public void 보호자_지정_실패_테스트_보호자_존재_테스트(){
+        //given
+        BDDMockito.given(userRepository.findUserByIdAndState(guardian.getId(),true)).willReturn(Optional.ofNullable(guardian));
+        BDDMockito.given(guardianRepository.existsGuardianByUserAndId(user,guardian.getId())).willReturn(true);
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(user);
+        //when
         Assertions.assertThatThrownBy(() -> studentService.designateGuardian(authentication,requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_GUARDIAN_ID_EXCEPTION);
 
+        //then
         BDDMockito.then(userRepository).should().findUserByIdAndState(guardian.getId(),true);
+        BDDMockito.then(guardianRepository).should().existsGuardianByUserAndId(user,guardian.getId());
         BDDMockito.then(authentication).should().getPrincipal();
         BDDMockito.then(principalDetails).should().getUser();
     }
