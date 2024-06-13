@@ -27,7 +27,7 @@ public class SignUpService {
     public void saveUser(SignUpRequestDto requestDto){
 
         if(!numberAuthRepository.existsBuSuccessNumber(requestDto.getPhoneNumber())){
-            throw new ExceptionResponse(CustomException.DUPLICATED_NUMBER_EXCEPTION);
+            throw new ExceptionResponse(CustomException.NOT_AUTH_NUMBER);
         }
 
         if(userRepository.existsUserById(requestDto.getId())){
