@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GuardianRepository extends JpaRepository<Guardian,Long> {
+public interface GuardianRepository extends JpaRepository<Guardian,Long>, GuardianRepositoryCustom {
 
     boolean existsGuardianByUserAndId(User user, String id);
 
+    @Override
+    List<User> findByMyChildren(String id);
 }
