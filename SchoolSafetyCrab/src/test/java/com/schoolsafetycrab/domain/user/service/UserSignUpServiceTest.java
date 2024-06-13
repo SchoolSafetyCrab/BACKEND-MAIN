@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class UserSignUpServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private SignUpService signUpService;
 
     @Mock
     private NumberAuthRepository numberAuthRepository;
@@ -49,7 +49,7 @@ public class UserSignUpServiceTest {
         BDDMockito.given(userRepository.existsUserByPhoneNumber(any())).willReturn(false);
 
         // when
-        Assertions.assertThatNoException().isThrownBy(() -> userService.saveUser(requestDto));
+        Assertions.assertThatNoException().isThrownBy(() -> signUpService.saveUser(requestDto));
 
         //then
         BDDMockito.then(numberAuthRepository).should().existsBuSuccessNumber(requestDto.getPhoneNumber());
@@ -64,7 +64,7 @@ public class UserSignUpServiceTest {
         BDDMockito.given(numberAuthRepository.existsBuSuccessNumber(any())).willReturn(false);
 
         //When
-        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+        Assertions.assertThatThrownBy(() -> signUpService.saveUser(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_NUMBER_EXCEPTION);
         BDDMockito.then(userRepository).shouldHaveNoInteractions();
@@ -81,7 +81,7 @@ public class UserSignUpServiceTest {
         BDDMockito.given(userRepository.existsUserById(any())).willReturn(true);
 
         // when
-        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+        Assertions.assertThatThrownBy(() -> signUpService.saveUser(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_ID_EXCEPTION);
 
@@ -99,7 +99,7 @@ public class UserSignUpServiceTest {
         BDDMockito.given(userRepository.existsUserByPhoneNumber(any())).willReturn(true);
 
         // when
-        Assertions.assertThatThrownBy(() -> userService.saveUser(requestDto))
+        Assertions.assertThatThrownBy(() -> signUpService.saveUser(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_NUMBER_EXCEPTION);
 

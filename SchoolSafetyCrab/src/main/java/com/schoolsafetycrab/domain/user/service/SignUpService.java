@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class UserService {
+public class SignUpService {
 
     private final UserRepository userRepository;
     private final NumberAuthRepository numberAuthRepository;
