@@ -5,6 +5,8 @@ import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.domain.user.requestDto.DesignateGuardianRequestDto;
+import com.schoolsafetycrab.global.exception.CustomException;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,5 +65,22 @@ public class UserStudentGuardianTest {
         //then
         BDDMockito.then(userRepository).should().findUserByIdAndState(guardian.getId(),true);
         BDDMockito.then(guardianRepository).should().existsGuardianByUserAndId(user,guardian.getId());
+    }
+
+    @Test
+    @DisplayName("부모 지정 실패 테스트 보호자 아이디 존재하지 않음")
+    public void 부모_지정_실패_테스트_보호자_아이디_존재하지_않음(){
+        //given
+        BDDMockito.given(userRepository.findUserByIdAndState(guardian.getId(),true)).willThrow(new ExceptionResponse(CustomException.DUPLICATED_GUARDIAN_ID_EXCEPTION));
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(user);
+
+        Assertions.assertThatThrownBy(() -> studentService.designateGuardian(authentication,requestDto))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_GUARDIAN_ID_EXCEPTION);
+
+        BDDMockito.then(userRepository).should().findUserByIdAndState(guardian.getId(),true);
+        BDDMockito.then(authentication).should().getPrincipal();
+        BDDMockito.then(principalDetails).should().getUser();
     }
 }
