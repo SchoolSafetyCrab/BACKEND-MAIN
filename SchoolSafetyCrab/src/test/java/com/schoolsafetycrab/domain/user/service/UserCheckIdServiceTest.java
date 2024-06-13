@@ -3,6 +3,7 @@ package com.schoolsafetycrab.domain.user.service;
 import com.schoolsafetycrab.domain.numberAuth.repository.NumberAuthRepository;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.domain.user.requestDto.CheckIdRequestDto;
+
 import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import org.assertj.core.api.Assertions;
@@ -20,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserCheckIdServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private SignUpService signUpService;
 
     @Mock
     private NumberAuthRepository numberAuthRepository;
@@ -45,7 +46,7 @@ public class UserCheckIdServiceTest {
         BDDMockito.given(userRepository.existsUserById(requestDto.getId())).willReturn(false);
 
         //when
-        boolean check = userService.checkId(requestDto);
+        boolean check = signUpService.checkId(requestDto);
 
         //then
         Assertions.assertThat(check).isTrue();
@@ -58,7 +59,7 @@ public class UserCheckIdServiceTest {
         BDDMockito.given(userRepository.existsUserById(requestDto.getId())).willReturn(true);
 
         //when
-        Assertions.assertThatThrownBy(() -> userService.checkId(requestDto))
+        Assertions.assertThatThrownBy(() -> signUpService.checkId(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_ID_EXCEPTION);
 

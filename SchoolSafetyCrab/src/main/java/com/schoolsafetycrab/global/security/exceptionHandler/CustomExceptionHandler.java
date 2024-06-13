@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.global.security.exceptionHandler;
 
+import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,13 +18,16 @@ public class CustomExceptionHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ExceptionResponse exception = (ExceptionResponse) request.getAttribute("exception");
+        CustomException exception = (CustomException) request.getAttribute("exception");
+        if(exception == null){
+            exception = CustomException.ACCESS_DENIEND_EXCEPTION;
+        }
 
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println("{ \"message\" : \"" + exception.getCustomException().getErrorMessage()
-                + "\", \"code\" : \"" +  exception.getCustomException().getErrorCode()
-                + "\", \"statusNum\" : " + exception.getCustomException().getStatusNum()
+        response.getWriter().println("{ \"message\" : \"" + exception.getErrorMessage()
+                + "\", \"code\" : \"" +  exception.getErrorCode()
+                + "\", \"statusNum\" : " + exception.getStatusNum()
                 + "}");
     }
 }

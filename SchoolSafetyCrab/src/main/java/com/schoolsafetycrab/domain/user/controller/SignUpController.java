@@ -1,9 +1,9 @@
 package com.schoolsafetycrab.domain.user.controller;
 
-import com.schoolsafetycrab.domain.user.message.SuccessMessage;
+import com.schoolsafetycrab.domain.user.message.SuccessSignUpMessage;
 import com.schoolsafetycrab.domain.user.requestDto.CheckIdRequestDto;
 import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
-import com.schoolsafetycrab.domain.user.service.UserService;
+import com.schoolsafetycrab.domain.user.service.SignUpService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +16,20 @@ import java.util.Map;
 @RequestMapping("/api/join")
 public class SignUpController {
 
-    private final UserService userService;
+    private final SignUpService signUpService;
     private final HttpResponseUtil responseUtil;
 
     @PostMapping
     public ResponseEntity<?> signupUser(@RequestBody SignUpRequestDto requestDto){
-        userService.saveUser(requestDto);
-        ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessMessage.SUCCESS_SIGNUP);
+        signUpService.saveUser(requestDto);
+        ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessSignUpMessage.SUCCESS_SIGNUP);
         return response;
     }
 
     @PostMapping("/check/id")
     public ResponseEntity<?> checkId(@RequestBody CheckIdRequestDto requestDto){
-        userService.checkId(requestDto);
-        ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessMessage.SUCCESS_CHECK_ID);
+        signUpService.checkId(requestDto);
+        ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessSignUpMessage.SUCCESS_CHECK_ID);
         return response;
     }
 }
