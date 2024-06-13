@@ -13,7 +13,7 @@ public class MyChildrenResponseDto {
         this.userId = userId;
     }
 
-    public MyChildrenResponseDto userToMyChildrenResponseDto(User user){
+    public static MyChildrenResponseDto userToMyChildrenResponseDto(User user){
         return new MyChildrenResponseDto(user.getId());
     }
 }
