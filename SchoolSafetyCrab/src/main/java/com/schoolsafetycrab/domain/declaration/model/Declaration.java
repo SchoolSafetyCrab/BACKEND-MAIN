@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.declaration.model;
 
+import com.schoolsafetycrab.domain.declaration.requestDto.DeclarationRequestDto;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -22,17 +23,17 @@ public class Declaration extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "latitude")
+    @Column(name = "latitude", nullable = false)
     private String latitude;
 
-    @Column(name = "longitude")
+    @Column(name = "longitude", nullable = false)
     private String longitude;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Lob
-    @Column(name = "detail", columnDefinition = "TEXT")
+    @Column(name = "detail", columnDefinition = "TEXT", nullable = false)
     private String detail;
 
     @Builder
@@ -44,7 +45,13 @@ public class Declaration extends BaseTimeEntity {
         this.detail = detail;
     }
 
-    public static Declaration createDeclaration(){
-
+    public static Declaration createDeclaration(User user, DeclarationRequestDto requestDto){
+        return Declaration.builder()
+                .user(user)
+                .latitude(requestDto.getLatitude())
+                .longitude(requestDto.getLongitude())
+                .title(requestDto.getTitle())
+                .detail(requestDto.getDetail())
+                .build();
     }
 }
