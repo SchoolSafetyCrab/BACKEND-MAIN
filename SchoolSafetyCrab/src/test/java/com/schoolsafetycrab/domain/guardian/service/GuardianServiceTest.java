@@ -61,5 +61,4 @@ public class GuardianServiceTest {
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
     }
-
 }
