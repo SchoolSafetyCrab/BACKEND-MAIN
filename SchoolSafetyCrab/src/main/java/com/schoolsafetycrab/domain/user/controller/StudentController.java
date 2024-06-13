@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/student")
 public class StudentController {
 
-    private StudentService studentService;
-    private HttpResponseUtil responseUtil;
+    private final StudentService studentService;
+    private final HttpResponseUtil responseUtil;
 
     @PostMapping("/designate/guardian")
     public ResponseEntity<?> designateGuardian(Authentication authentication, @RequestBody DesignateGuardianRequestDto requestDto){
