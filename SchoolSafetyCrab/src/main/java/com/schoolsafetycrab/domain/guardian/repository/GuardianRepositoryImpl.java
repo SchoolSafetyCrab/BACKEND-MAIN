@@ -20,8 +20,7 @@ public class GuardianRepositoryImpl implements GuardianRepositoryCustom{
         return queryFactory
                 .select(guardian.user)
                 .from(guardian)
-                .where(guardian.user.state.isTrue().and(guardian.id.eq(id)))
+                .where(guardian.id.eq(id).and(guardian.user.state.isTrue()))
                 .fetch();
-
     }
 }
