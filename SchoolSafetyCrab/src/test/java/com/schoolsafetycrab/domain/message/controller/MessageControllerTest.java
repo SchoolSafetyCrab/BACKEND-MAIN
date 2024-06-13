@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.numberAuth.controller.MessageController;
 import com.schoolsafetycrab.domain.numberAuth.message.SuccessMessage;
 import com.schoolsafetycrab.domain.numberAuth.requestDto.CheckAuthCodeRequestDto;
+import com.schoolsafetycrab.domain.numberAuth.requestDto.SendAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -59,12 +61,12 @@ public class MessageControllerTest {
     @WithMockAuthUser(id = "test@gmail.com", roles = Role.ROLE_STUDENT)
     public void 인증번호_전송_성공() throws Exception{
         //given
-        String phoneNumber = "01012341234";
-        String requestBody = objectMapper.writeValueAsString(phoneNumber);
+        SendAuthCodeRequestDto requestDto = new SendAuthCodeRequestDto("010-1111-1111");
+        String requestBody = objectMapper.writeValueAsString(requestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
 
         //when
-        BDDMockito.doNothing().when(messageService).sendAuthCode(phoneNumber);
+        BDDMockito.doNothing().when(messageService).sendAuthCode(requestDto);
         BDDMockito.given(httpResponseUtil.createResponse(eq(SuccessMessage.SUCCESS_MESSAGE)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 

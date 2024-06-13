@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.numberAuth.service;
 
+import com.schoolsafetycrab.domain.numberAuth.requestDto.SendAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.config.MessageValueConfig;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -19,17 +20,17 @@ public class MessageService {
     private final UserRepository userRepository;
     private final NumberAuthService numberAuthService;
 
-    public void sendAuthCode(String phoneNumber){
-        if(userRepository.existsUserByPhoneNumber(phoneNumber)){
+    public void sendAuthCode(SendAuthCodeRequestDto requestDto){
+        if(userRepository.existsUserByPhoneNumber(requestDto.getPhoneNumber())){
             throw new ExceptionResponse(CustomException.DUPLICATED_NUMBER_EXCEPTION);
         }
 
-        String authCode = numberAuthService.saveAuthCode(phoneNumber);
+        String authCode = numberAuthService.saveAuthCode(requestDto.getPhoneNumber());
         String text = createMessage(authCode);
 
         Message message = new Message();
         message.setFrom("01029463517");
-        message.setTo(phoneNumber);
+        message.setTo(requestDto.getPhoneNumber());
         message.setText(text);
 
         messageValueConfig.getDefaultMessageService().sendOne(new SingleMessageSendingRequest(message));
