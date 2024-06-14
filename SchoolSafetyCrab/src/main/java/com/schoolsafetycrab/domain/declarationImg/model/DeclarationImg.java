@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.declarationImg;
+package com.schoolsafetycrab.domain.declarationImg.model;
 
 import com.schoolsafetycrab.domain.declaration.model.Declaration;
 import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
