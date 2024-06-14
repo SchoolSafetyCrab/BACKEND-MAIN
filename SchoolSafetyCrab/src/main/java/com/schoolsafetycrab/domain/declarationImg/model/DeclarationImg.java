@@ -14,8 +14,8 @@ public class DeclarationImg extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "declaration_img_id")
-    private String declarationImgId;
+    @Column(name = "declarationImg_id")
+    private long declarationImgId;
 
     @ManyToOne
     @JoinColumn(name = "declaration_id")
