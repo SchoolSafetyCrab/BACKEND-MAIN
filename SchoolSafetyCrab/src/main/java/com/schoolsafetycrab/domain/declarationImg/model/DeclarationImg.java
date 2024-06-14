@@ -29,7 +29,7 @@ public class DeclarationImg extends BaseTimeEntity {
         this.imgUrl = imgUrl;
     }
 
-    public DeclarationImg createDeclarationImg(Declaration declaration, String img){
+    public static DeclarationImg createDeclarationImg(Declaration declaration, String imgUrl){
         return new DeclarationImg(declaration,imgUrl);
     }
 }
