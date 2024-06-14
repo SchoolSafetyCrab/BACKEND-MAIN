@@ -62,6 +62,7 @@ public class DeclarationControllerTest {
     public void init(){
         user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
         List<String> images = new ArrayList<>();
+        images.add("url");
         requestDto = new DeclarationRequestDto("11","11","test","test",images);
     }
 
