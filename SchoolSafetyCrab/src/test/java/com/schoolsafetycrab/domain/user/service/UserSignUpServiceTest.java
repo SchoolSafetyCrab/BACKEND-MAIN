@@ -66,7 +66,7 @@ public class UserSignUpServiceTest {
         //When
         Assertions.assertThatThrownBy(() -> signUpService.saveUser(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
-                .hasFieldOrPropertyWithValue("customException", CustomException.NOT_AUTH_NUMBER);
+                .hasFieldOrPropertyWithValue("customException", CustomException.NOT_AUTH_NUMBER_EXCEPTION);
         BDDMockito.then(userRepository).shouldHaveNoInteractions();
         BDDMockito.then(userRepository).shouldHaveNoInteractions();
         //then
