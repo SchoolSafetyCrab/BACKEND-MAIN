@@ -29,7 +29,7 @@ public class QDeclarationImg extends EntityPathBase<DeclarationImg> {
 
     public final com.schoolsafetycrab.domain.declaration.model.QDeclaration declaration;
 
-    public final StringPath declarationImgId = createString("declarationImgId");
+    public final NumberPath<Long> declarationImgId = createNumber("declarationImgId", Long.class);
 
     public final StringPath imgUrl = createString("imgUrl");
 
