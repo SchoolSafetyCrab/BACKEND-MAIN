@@ -1,7 +1,9 @@
-package com.schoolsafetycrab.domain.guardian.controller;
+package com.schoolsafetycrab.domain.declaration.controller;
 
-import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
-import com.schoolsafetycrab.domain.guardian.service.GuardianService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.schoolsafetycrab.domain.declaration.message.SuccessMessage;
+import com.schoolsafetycrab.domain.declaration.requestDto.DeclarationRequestDto;
+import com.schoolsafetycrab.domain.declaration.service.DeclarationService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -19,7 +21,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,17 +34,20 @@ import java.util.List;
 import java.util.Map;
 
 @WebMvcTest(
-        controllers = GuardianController.class,
+        controllers = DeclarationController.class,
         excludeFilters ={@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
 )
 @MockBean(JpaMetamodelMappingContext.class)
-public class GuardianControllerTest {
+public class DeclarationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
-    private GuardianService guardianService;
+    private DeclarationService declarationService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -51,32 +55,32 @@ public class GuardianControllerTest {
     @Mock
     private Authentication authentication;
 
-    List<MyChildrenResponseDto> responses;
+    private User user;
+    private DeclarationRequestDto requestDto;
 
     @BeforeEach
     public void init(){
-        responses = new ArrayList<>();
-        User user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
-        MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(user);
-        responses.add(responseDto);
+        user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        List<String> images = new ArrayList<>();
+        requestDto = new DeclarationRequestDto("11","11","test","test",images);
     }
 
     @Test
-    @DisplayName("보호자 자식 조회 테스트")
+    @DisplayName("신고 성공 테스트")
     @WithMockAuthUser(id = "test@gmail.com", roles = Role.ROLE_PARENTS)
-    public void 보호자_자식_조회_성공_테스트() throws Exception{
+    public void 신고_성공_테스트() throws Exception {
         //given
+        String requestBody = objectMapper.writeValueAsString(requestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
-        mockResponseData.put("data",responses);
+        mockResponseData.put("data", SuccessMessage.SUCCESS_REQUEST_DECLARATION);
 
-        BDDMockito.given(guardianService.myChildren(authentication)).willReturn(responses);
-        BDDMockito.given(responseUtil.createResponse(responses))
-                .willReturn(ResponseEntity.ok().body(mockResponseData));
+        //when
+        BDDMockito.doNothing().when(declarationService).requestDeclaration(authentication,requestDto);
 
-        //then
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/parents")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/declaration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
         result.andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

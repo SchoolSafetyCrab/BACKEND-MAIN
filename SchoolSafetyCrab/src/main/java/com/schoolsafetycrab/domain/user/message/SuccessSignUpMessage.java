@@ -1,10 +1,11 @@
 package com.schoolsafetycrab.domain.user.message;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public enum SuccessSignUpMessage {
 
     SUCCESS_SIGNUP("회원가입 성공"),

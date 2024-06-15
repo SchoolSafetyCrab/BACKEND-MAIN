@@ -58,6 +58,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((request) -> request
                 .requestMatchers("/api/join/**").permitAll()
                 .requestMatchers("/api/login").permitAll()
+                .requestMatchers("/api/declaration").hasAnyRole("STUDENT","TEACHER","PARENTS")
                 .requestMatchers("/api/student/**").hasRole("STUDENT")
                 .requestMatchers("/api/teacher/**").hasRole("TEACHER")
                 .requestMatchers("/api/parents/**").hasRole("PARENTS")
