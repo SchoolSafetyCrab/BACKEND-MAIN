@@ -1,7 +1,6 @@
 package com.schoolsafetycrab.global.security.exceptionHandler;
 
 import com.schoolsafetycrab.global.exception.CustomException;
-import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +19,7 @@ public class CustomExceptionHandler implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         CustomException exception = (CustomException) request.getAttribute("exception");
         if(exception == null){
+            log.error(authException.getMessage());
             exception = CustomException.ACCESS_DENIEND_EXCEPTION;
         }
 
