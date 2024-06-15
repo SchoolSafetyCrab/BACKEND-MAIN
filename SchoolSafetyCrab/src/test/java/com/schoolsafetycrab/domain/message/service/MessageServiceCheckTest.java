@@ -52,7 +52,7 @@ public class MessageServiceCheckTest {
 
         Assertions.assertThatThrownBy(() -> numberAuthService.checkAuthCode(requestDto))
                 .isInstanceOf(ExceptionResponse.class)
-                .hasFieldOrPropertyWithValue("customException",CustomException.NOT_MATCH_AUTH_CODE);
+                .hasFieldOrPropertyWithValue("customException",CustomException.NOT_MATCH_AUTH_CODE_EXCEPTION);
 
         BDDMockito.then(numberAuthRepository).should().checkAuth(requestDto.getPhoneNumber(), requestDto.getAuthCode());
     }

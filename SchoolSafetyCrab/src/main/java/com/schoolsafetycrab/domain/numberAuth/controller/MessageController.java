@@ -6,6 +6,7 @@ import com.schoolsafetycrab.domain.numberAuth.requestDto.SendAuthCodeRequestDto;
 import com.schoolsafetycrab.domain.numberAuth.service.MessageService;
 import com.schoolsafetycrab.domain.numberAuth.service.NumberAuthService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +26,14 @@ public class MessageController {
     private final HttpResponseUtil httpResponseUtil;
 
     @PostMapping("/send/code")
-    public ResponseEntity<?> saveAuthCode(@RequestBody SendAuthCodeRequestDto requestDto){
+    public ResponseEntity<?> saveAuthCode(@Valid @RequestBody SendAuthCodeRequestDto requestDto){
         messageService.sendAuthCode(requestDto);
         ResponseEntity<Map<String,Object>> response = httpResponseUtil.createResponse(SuccessMessage.SUCCESS_MESSAGE);
         return response;
     }
 
     @PostMapping("/check/code")
-    public ResponseEntity<?> checkAuthCode(@RequestBody CheckAuthCodeRequestDto requestDto){
+    public ResponseEntity<?> checkAuthCode(@Valid @RequestBody CheckAuthCodeRequestDto requestDto){
         numberAuthService.checkAuthCode(requestDto);
         ResponseEntity<Map<String,Object>> response = httpResponseUtil.createResponse(SuccessMessage.SUCCESS_CHECK_AUTH);
         return response;

@@ -34,7 +34,7 @@ public class NumberAuthService {
         String authCode = requestDto.getAuthCode();
 
         if(!numberAuthRepository.checkAuth(phoneNumber,authCode)){
-            throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE);
+            throw new ExceptionResponse(CustomException.NOT_MATCH_AUTH_CODE_EXCEPTION);
         }
         numberAuthRepository.saveSuccessNumber(phoneNumber);
     }

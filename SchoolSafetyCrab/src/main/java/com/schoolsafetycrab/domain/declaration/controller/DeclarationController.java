@@ -4,6 +4,7 @@ import com.schoolsafetycrab.domain.declaration.message.SuccessMessage;
 import com.schoolsafetycrab.domain.declaration.requestDto.DeclarationRequestDto;
 import com.schoolsafetycrab.domain.declaration.service.DeclarationService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class DeclarationController {
     private final HttpResponseUtil responseUtil;
 
     @PostMapping
-    public ResponseEntity<?> requestDeclaration(Authentication authentication, @RequestBody DeclarationRequestDto requestDto){
+    public ResponseEntity<?> requestDeclaration(Authentication authentication, @Valid @RequestBody DeclarationRequestDto requestDto){
         declarationService.requestDeclaration(authentication,requestDto);
         ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessMessage.SUCCESS_REQUEST_DECLARATION);
         return response;

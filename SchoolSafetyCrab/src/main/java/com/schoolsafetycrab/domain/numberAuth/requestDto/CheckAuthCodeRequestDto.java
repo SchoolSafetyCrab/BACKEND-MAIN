@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 public class CheckAuthCodeRequestDto {
 
     @NotBlank
+    @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$")
     private String phoneNumber;
 
     @NotBlank

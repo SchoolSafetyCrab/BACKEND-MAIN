@@ -4,6 +4,7 @@ import com.schoolsafetycrab.domain.user.message.SuccessStudentMessage;
 import com.schoolsafetycrab.domain.user.requestDto.DesignateGuardianRequestDto;
 import com.schoolsafetycrab.domain.user.service.StudentService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class StudentController {
     private final HttpResponseUtil responseUtil;
 
     @PostMapping("/designate/guardian")
-    public ResponseEntity<?> designateGuardian(Authentication authentication, @RequestBody DesignateGuardianRequestDto requestDto){
+    public ResponseEntity<?> designateGuardian(Authentication authentication, @Valid @RequestBody DesignateGuardianRequestDto requestDto){
         studentService.designateGuardian(authentication,requestDto);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessStudentMessage.SUCCESS_DESIGNATE_GUARDIAN);
         return response;
