@@ -5,6 +5,7 @@ import com.schoolsafetycrab.domain.user.requestDto.CheckIdRequestDto;
 import com.schoolsafetycrab.domain.user.requestDto.SignUpRequestDto;
 import com.schoolsafetycrab.domain.user.service.SignUpService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,14 @@ public class SignUpController {
     private final HttpResponseUtil responseUtil;
 
     @PostMapping
-    public ResponseEntity<?> signupUser(@RequestBody SignUpRequestDto requestDto){
+    public ResponseEntity<?> signupUser(@Valid @RequestBody SignUpRequestDto requestDto){
         signUpService.saveUser(requestDto);
         ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessSignUpMessage.SUCCESS_SIGNUP);
         return response;
     }
 
     @PostMapping("/check/id")
-    public ResponseEntity<?> checkId(@RequestBody CheckIdRequestDto requestDto){
+    public ResponseEntity<?> checkId(@Valid @RequestBody CheckIdRequestDto requestDto){
         signUpService.checkId(requestDto);
         ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(SuccessSignUpMessage.SUCCESS_CHECK_ID);
         return response;

@@ -1,6 +1,8 @@
 package com.schoolsafetycrab.domain.declaration.requestDto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +27,7 @@ public class DeclarationRequestDto {
     @NotBlank
     private String detail;
 
+    @NotNull
+    @Size(min = 1)
     List<String> images;
 }
