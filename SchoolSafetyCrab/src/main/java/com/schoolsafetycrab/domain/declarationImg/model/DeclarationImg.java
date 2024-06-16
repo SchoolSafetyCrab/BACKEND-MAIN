@@ -17,7 +17,7 @@ public class DeclarationImg extends BaseTimeEntity {
     @Column(name = "declaration_img_id")
     private long declarationImgId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "declaration_id")
     private Declaration declaration;
 

@@ -16,7 +16,7 @@ public class Guardian {
     @Column(name = "guardian_id")
     private long GuardianId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
