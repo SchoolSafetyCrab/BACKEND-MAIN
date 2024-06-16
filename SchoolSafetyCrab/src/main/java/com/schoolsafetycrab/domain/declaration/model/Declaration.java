@@ -19,7 +19,7 @@ public class Declaration extends BaseTimeEntity {
     @Column(name = "declaration_id")
     private long declarationId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
