@@ -2,6 +2,10 @@ package com.schoolsafetycrab.domain.schoolway.service;
 
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
+import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
+import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
+import com.schoolsafetycrab.domain.schoolwaypoint.repository.SchoolWayPointRepository;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -13,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,9 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class SchoolWayService {
 
     private final SchoolWayRepository schoolWayRepository;
+    private final SchoolWayPointRepository schoolWayPointRepository;
 
     @Transactional
-    public void saveSchoolWay(Authentication authentication) {
+    public void saveSchoolWay(Authentication authentication, SchoolWayPointRequestDto requestDto) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         if(!user.getRole().equals(Role.ROLE_STUDENT)){
@@ -31,5 +38,12 @@ public class SchoolWayService {
 
         SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
         schoolWayRepository.save(schoolWay);
+
+        List<PointRequestDto> points = requestDto.getPoints();
+
+        for(PointRequestDto point : points){
+            SchoolWayPoint schoolWayPoint = SchoolWayPoint.createSchoolWayPoint(schoolWay, point.getLatitude(), point.getLongitude());
+            schoolWayPointRepository.save(schoolWayPoint);
+        }
     }
 }
