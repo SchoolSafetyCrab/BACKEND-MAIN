@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.requestDto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class SchoolWayPointRequestDto {
 
+    @NotNull
     private List<PointRequestDto> points;
 }
