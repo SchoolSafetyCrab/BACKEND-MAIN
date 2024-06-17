@@ -2,6 +2,9 @@ package com.schoolsafetycrab.domain.schoolway.service;
 
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
+import com.schoolsafetycrab.domain.user.model.Role;
+import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,7 +20,12 @@ public class SchoolWayService {
     private final SchoolWayRepository schoolWayRepository;
 
     @Transactional
-    public SchoolWay saveSchoolWay(Authentication authentication, SchoolWay schoolWay) {
+    public SchoolWay saveSchoolWay(Authentication authentication) {
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+
+        if(!user.getRole().equals(Role.ROLE_STUDENT)){
+
+        }
 
     }
 }
