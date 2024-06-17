@@ -4,6 +4,8 @@ import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.global.exception.CustomException;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +26,10 @@ public class SchoolWayService {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         if(!user.getRole().equals(Role.ROLE_STUDENT)){
-
+            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
         }
+
+        SchoolWay schoolWay = SchoolWay.createSchoolWay()
 
     }
 }

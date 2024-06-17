@@ -22,12 +22,11 @@ public class SchoolWay extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private SchoolWay(User user, long schoolWayId) {
+    private SchoolWay(User user) {
         this.user = user;
-        this.schoolWayId = schoolWayId;
     }
 
-    public static SchoolWay createSchoolWay(User user, long schoolWayId) {
-        return new SchoolWay(user, schoolWayId);
+    public static SchoolWay createSchoolWay(User user) {
+        return new SchoolWay(user);
     }
 }
