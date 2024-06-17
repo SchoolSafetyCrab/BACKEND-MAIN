@@ -22,14 +22,14 @@ public class SchoolWayService {
     private final SchoolWayRepository schoolWayRepository;
 
     @Transactional
-    public SchoolWay saveSchoolWay(Authentication authentication) {
+    public void saveSchoolWay(Authentication authentication) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         if(!user.getRole().equals(Role.ROLE_STUDENT)){
             throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
         }
 
-        SchoolWay schoolWay = SchoolWay.createSchoolWay()
-
+        SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
+        schoolWayRepository.save(schoolWay);
     }
 }
