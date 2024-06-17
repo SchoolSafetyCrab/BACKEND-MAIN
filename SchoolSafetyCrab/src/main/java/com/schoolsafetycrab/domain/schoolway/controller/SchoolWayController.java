@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.controller;
 
+import com.schoolsafetycrab.domain.schoolway.message.SuccessSchoolWayMessage;
 import com.schoolsafetycrab.domain.schoolway.service.SchoolWayService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class SchoolWayController {
     @PostMapping("/save/schoolway")
     public ResponseEntity<?> saveSchoolWay(Authentication authentication) {
         schoolWayService.saveSchoolWay(authentication);
-        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse();
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY);
+        return response;
     }
 
 }
