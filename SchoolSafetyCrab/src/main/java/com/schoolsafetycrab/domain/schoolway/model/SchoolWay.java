@@ -1,0 +1,32 @@
+package com.schoolsafetycrab.domain.schoolway.model;
+
+import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Table(name = "Schoolway")
+public class SchoolWay extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "schoolway_id")
+    private long schoolWayId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private SchoolWay(User user) {
+        this.user = user;
+    }
+
+    public static SchoolWay createSchoolWay(User user) {
+        return new SchoolWay(user);
+    }
+}
