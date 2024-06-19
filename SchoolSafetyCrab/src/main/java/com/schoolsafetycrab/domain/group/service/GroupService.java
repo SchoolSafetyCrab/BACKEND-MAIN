@@ -36,6 +36,7 @@ public class GroupService {
         Group group = Group.createGroup(requestDto);
         groupRepository.save(group);
 
+
         UserGroup userGroup = UserGroup.createUserGroup(group, user);
         userGroupRepository.save(userGroup);
     }
