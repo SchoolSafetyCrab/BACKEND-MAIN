@@ -18,7 +18,6 @@ public class Group extends BaseTimeEntity {
     @Column(name = "group_id")
     private long groupId;
 
-
     @Column(name = "school_name", nullable = false)
     private String schoolName;
 
