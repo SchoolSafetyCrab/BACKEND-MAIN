@@ -1,5 +1,7 @@
 package com.schoolsafetycrab.domain.group.requestDto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,8 @@ public class CreateGroupRequestDto {
     @NotBlank
     private String schoolName;
 
+    @Min(1)
+    @Max(6)
     @NotBlank
     private int schoolYear;
 
