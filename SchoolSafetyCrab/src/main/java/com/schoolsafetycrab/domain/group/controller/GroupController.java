@@ -21,6 +21,6 @@ public class GroupController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createGroup(Authentication authentication, @RequestBody CreateGroupRequestDto requestDto) {
-
+        
     }
 }
