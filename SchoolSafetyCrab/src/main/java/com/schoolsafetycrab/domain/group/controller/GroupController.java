@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/group")
+@RequestMapping("/api")
 public class GroupController {
 
     private final GroupService groupService;
     private final HttpResponseUtil responseUtil;
 
-    @PostMapping("/create")
+    @PostMapping("/teacher/group/create")
     public ResponseEntity<?> createGroup(Authentication authentication, @RequestBody CreateGroupRequestDto requestDto) {
-        
+
     }
 }

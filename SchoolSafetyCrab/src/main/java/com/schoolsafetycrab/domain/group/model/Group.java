@@ -9,11 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Group", uniqueConstraints = {
-        @UniqueConstraint(columnNames =
-                {"school_name", "school_year","school_ban"}
-        )
-})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Group extends BaseTimeEntity {
