@@ -72,7 +72,7 @@ public class SchoolWayControllerTest {
     }
 
     @Test
-    @DisplayName("등하굣길 등록 테스트")
+    @DisplayName("등하굣길 등록 성공 테스트")
     @WithMockAuthUser(id = "test", roles = Role.ROLE_STUDENT)
     public void 등하굣길_등록_성공_테스트() throws Exception{
         //given
