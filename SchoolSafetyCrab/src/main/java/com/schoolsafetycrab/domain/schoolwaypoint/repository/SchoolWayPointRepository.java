@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface SchoolWayPointRepository extends JpaRepository<SchoolWayPoint, Long> {
 
     void deleteAllBySchoolWayId(Long schoolWayId);
+    boolean existsBySchoolWayId(Long schoolWayId);
 }
