@@ -9,7 +9,8 @@ import lombok.Getter;
 public enum SuccessSchoolWayMessage {
 
     SUCCESS_SAVE_SCHOOL_WAY("등하굣길 등록 성공"),
-    SUCCESS_DELETE_SCHOOL_WAY("등하굣길 삭제 성공");
+    SUCCESS_DELETE_SCHOOL_WAY("등하굣길 삭제 성공"),
+    SUCCESS_FIND_SCHOOL_WAY("등하굣길 조회 성공");
 
     private final String message;
 }
