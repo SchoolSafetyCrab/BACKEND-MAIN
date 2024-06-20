@@ -61,7 +61,7 @@ public class SchoolWayService {
     }
 
     @Transactional
-    public List<PointResponseDto> findSchoolWay(Authentication authentication){
+    public List<PointResponseDto> findMySchoolWay(Authentication authentication){
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
         List<PointResponseDto> points = schoolWayPointRepository.findByUser(user);
 

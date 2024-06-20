@@ -37,8 +37,8 @@ public class SchoolWayController {
     }
 
     @GetMapping("/find/schoolway")
-    public ResponseEntity<?> findSchoolWay(Authentication authentication) {
-        List<PointResponseDto> responses = schoolWayService.findSchoolWay(authentication);
+    public ResponseEntity<?> findMySchoolWay(Authentication authentication) {
+        List<PointResponseDto> responses = schoolWayService.findMySchoolWay(authentication);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responses);
         return response;
     }
