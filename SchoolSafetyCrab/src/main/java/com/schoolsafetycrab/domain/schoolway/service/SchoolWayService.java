@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.schoolway.service;
 
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
-import com.schoolsafetycrab.domain.schoolway.requestDto.DeleteSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
