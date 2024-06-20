@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SchoolWayRepository extends JpaRepository<SchoolWay, Long> {
 
-
+    void deleteBySchoolWayId(Long schoolId);
 }
