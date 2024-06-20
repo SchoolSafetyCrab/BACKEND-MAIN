@@ -18,7 +18,7 @@ public class SchoolWay extends BaseTimeEntity {
     @Column(name = "schoolway_id")
     private long schoolWayId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
 
