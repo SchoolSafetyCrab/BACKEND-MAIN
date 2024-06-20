@@ -48,7 +48,7 @@ public class SchoolWayService {
     }
 
     @Transactional
-    public void deleteSchoolWay(Authentication authentication, DeleteSchoolWayRequestDto requestDto){
+    public void deleteSchoolWay(Authentication authentication){
 
     }
 }
