@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.service;
 
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
@@ -57,5 +58,13 @@ public class SchoolWayService {
 
         schoolWayPointRepository.deleteAllBySchoolWay(schoolWay);
         schoolWayRepository.deleteBySchoolWayId(schoolWay.getSchoolWayId());
+    }
+
+    @Transactional
+    public List<PointResponseDto> findSchoolWay(Authentication authentication){
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+        List<PointResponseDto> points = schoolWayPointRepository.findByUser(user);
+
+        return points;
     }
 }
