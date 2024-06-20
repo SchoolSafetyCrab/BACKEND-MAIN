@@ -17,7 +17,7 @@ public class SchoolWayPoint {
     private Long schoolWayPointId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schoolway_id")
+    @JoinColumn(name = "school_way_id")
     private SchoolWay schoolWay;
 
     @Column(nullable = false)

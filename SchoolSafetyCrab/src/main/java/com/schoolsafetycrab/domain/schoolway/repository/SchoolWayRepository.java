@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface SchoolWayRepository extends JpaRepository<SchoolWay, Long> {
 
     Optional<SchoolWay> findByUser(User user);
-    void deleteBySchoolWayId(Long schoolId);
+    void deleteBySchoolWayId(long schoolWayId);
 }

@@ -55,7 +55,7 @@ public class SchoolWayService {
             throw new ExceptionResponse(CustomException.NOT_FOUND_SCHOOL_WAY_EXCEPTION);
         });
 
-        schoolWayPointRepository.deleteAllBySchoolWayId(schoolWay.getSchoolWayId());
+        schoolWayPointRepository.deleteAllBySchoolWay(schoolWay);
         schoolWayRepository.deleteBySchoolWayId(schoolWay.getSchoolWayId());
     }
 }
