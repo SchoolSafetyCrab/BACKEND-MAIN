@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -26,8 +23,14 @@ public class SchoolWayController {
     @PostMapping("/save/schoolway")
     public ResponseEntity<?> saveSchoolWay(Authentication authentication, @Valid @RequestBody SchoolWayPointRequestDto requestDto) {
         schoolWayService.saveSchoolWay(authentication, requestDto);
-        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY);
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessSchoolWayMessage.SUCCESS_SAVE_SCHOOL_WAY);
         return response;
     }
 
+    @DeleteMapping("/delete/schoolway")
+    public ResponseEntity<?> deleteSchoolWay(Authentication authentication) {
+        schoolWayService.deleteSchoolWay(authentication);
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessSchoolWayMessage.SUCCESS_DELETE_SCHOOL_WAY);
+        return response;
+    }
 }

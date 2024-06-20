@@ -15,7 +15,7 @@ public class SchoolWay extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schoolway_id")
+    @Column(name = "school_way_id")
     private long schoolWayId;
 
     @OneToOne(fetch = FetchType.LAZY)

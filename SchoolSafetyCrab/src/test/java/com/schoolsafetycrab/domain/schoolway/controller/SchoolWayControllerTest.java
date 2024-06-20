@@ -72,21 +72,44 @@ public class SchoolWayControllerTest {
     }
 
     @Test
-    @DisplayName("등하굣길 등록 테스트")
+    @DisplayName("등하굣길 등록 성공 테스트")
     @WithMockAuthUser(id = "test", roles = Role.ROLE_STUDENT)
     public void 등하굣길_등록_성공_테스트() throws Exception{
         //given
         String requestBody = objectMapper.writeValueAsString(schoolWayPointRequestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
-        mockResponseData.put("data", SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY);
+        mockResponseData.put("data", SuccessSchoolWayMessage.SUCCESS_SAVE_SCHOOL_WAY);
 
         //when
         BDDMockito.doNothing().when(schoolWayService).saveSchoolWay(authentication, schoolWayPointRequestDto);
-        BDDMockito.given(responseUtil.createResponse(eq(SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY)))
+        BDDMockito.given(responseUtil.createResponse(eq(SuccessSchoolWayMessage.SUCCESS_SAVE_SCHOOL_WAY)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         //then
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/student/save/schoolway")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        );
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("등하굣길 삭제 성공 테스트")
+    @WithMockAuthUser(id = "test", roles = Role.ROLE_STUDENT)
+    public void 등하굣길_삭제_성공_테스트() throws Exception{
+        //given
+        String requestBody = objectMapper.writeValueAsString(schoolWayPointRequestDto);
+        Map<String, Object> mockResponseData = new HashMap<>();
+        mockResponseData.put("data", SuccessSchoolWayMessage.SUCCESS_DELETE_SCHOOL_WAY);
+
+        //when
+        BDDMockito.doNothing().when(schoolWayService).deleteSchoolWay(authentication);
+        BDDMockito.given(responseUtil.createResponse(eq(SuccessSchoolWayMessage.SUCCESS_DELETE_SCHOOL_WAY)))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        //then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/delete/schoolway")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)

@@ -46,4 +46,16 @@ public class SchoolWayService {
             schoolWayPointRepository.save(schoolWayPoint);
         }
     }
+
+    @Transactional
+    public void deleteSchoolWay(Authentication authentication){
+
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+        SchoolWay schoolWay = schoolWayRepository.findByUser(user).orElseThrow(() -> {
+            throw new ExceptionResponse(CustomException.NOT_FOUND_SCHOOL_WAY_EXCEPTION);
+        });
+
+        schoolWayPointRepository.deleteAllBySchoolWay(schoolWay);
+        schoolWayRepository.deleteBySchoolWayId(schoolWay.getSchoolWayId());
+    }
 }

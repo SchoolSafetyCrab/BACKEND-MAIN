@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.service;
 
+import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
@@ -20,6 +21,9 @@ import org.springframework.security.core.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class SchoolWayServiceTest {
@@ -42,6 +46,7 @@ public class SchoolWayServiceTest {
     private SchoolWayPointRequestDto schoolWayPointRequestDto;
     private PointRequestDto pointRequestDto;
     private User student;
+    private SchoolWay schoolWay;
 
     @BeforeEach
     public void init(){
@@ -50,6 +55,7 @@ public class SchoolWayServiceTest {
         List<PointRequestDto> points = new ArrayList<>();
         points.add(pointRequestDto);
         schoolWayPointRequestDto = new SchoolWayPointRequestDto(points);
+        schoolWay = SchoolWay.createSchoolWay(student);
     }
 
     @Test
@@ -62,5 +68,18 @@ public class SchoolWayServiceTest {
         //when
         Assertions.assertThatNoException().isThrownBy(()->schoolWayService.saveSchoolWay(authentication, schoolWayPointRequestDto));
 
+    }
+
+    @Test
+    @DisplayName("등하굣길 삭제 테스트")
+    public void 등하굣길_삭제_성공_테스트(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(student);
+        BDDMockito.given(schoolWayRepository.findByUser(student)).willReturn(Optional.ofNullable(schoolWay));
+        BDDMockito.doNothing().when(schoolWayPointRepository).deleteAllBySchoolWay(schoolWay);
+
+        //when
+        Assertions.assertThatNoException().isThrownBy(()->schoolWayService.deleteSchoolWay(authentication));
     }
 }
