@@ -78,11 +78,11 @@ public class SchoolWayControllerTest {
         //given
         String requestBody = objectMapper.writeValueAsString(schoolWayPointRequestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
-        mockResponseData.put("data", SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY);
+        mockResponseData.put("data", SuccessSchoolWayMessage.SUCCESS_SAVE_SCHOOL_WAY);
 
         //when
         BDDMockito.doNothing().when(schoolWayService).saveSchoolWay(authentication, schoolWayPointRequestDto);
-        BDDMockito.given(responseUtil.createResponse(eq(SuccessSchoolWayMessage.SUCCESS_SCHOOL_WAY)))
+        BDDMockito.given(responseUtil.createResponse(eq(SuccessSchoolWayMessage.SUCCESS_SAVE_SCHOOL_WAY)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         //then
