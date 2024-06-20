@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Grouping extends BaseTimeEntity {
+@Table(name = "group_classroom")
+public class Group extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "grouping_id")
-    private long groupingId;
+    @Column(name = "group_id")
+    private long groupId;
 
     @Column(name = "school_name", nullable = false)
     private String schoolName;
@@ -37,7 +38,7 @@ public class Grouping extends BaseTimeEntity {
     private String groupCode;
 
     @Builder
-    private Grouping(String schoolName, int schoolYear, int schoolBan, int userNum, boolean state, String groupCode) {
+    private Group(String schoolName, int schoolYear, int schoolBan, int userNum, boolean state, String groupCode) {
         this.schoolName = schoolName;
         this.schoolYear = schoolYear;
         this.schoolBan = schoolBan;
@@ -46,8 +47,8 @@ public class Grouping extends BaseTimeEntity {
         this.groupCode = groupCode;
     }
 
-    public static Grouping createGroup(CreateGroupRequestDto requestDto){
-        return Grouping.builder()
+    public static Group createGroup(CreateGroupRequestDto requestDto){
+        return Group.builder()
                 .schoolName(requestDto.getSchoolName().replaceAll("\\s+", ""))
                 .schoolYear(requestDto.getSchoolYear())
                 .schoolBan(requestDto.getSchoolBan())

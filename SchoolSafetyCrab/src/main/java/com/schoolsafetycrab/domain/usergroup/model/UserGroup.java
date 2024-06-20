@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.usergroup.model;
 
-import com.schoolsafetycrab.domain.group.model.Grouping;
+import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,27 +10,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserGrouping {
+public class UserGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_grouping_id")
-    private long userGroupingId;
+    @Column(name = "user_group_id")
+    private long userGroupId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
-    private Grouping grouping;
+    private Group group;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    private UserGrouping(Grouping grouping, User user) {
-        this.grouping = grouping;
+    private UserGroup(Group group, User user) {
+        this.group = group;
         this.user = user;
     }
 
-    public static UserGrouping createUserGroup(Grouping grouping, User user) {
-        return new UserGrouping(grouping, user);
+    public static UserGroup createUserGroup(Group group, User user) {
+        return new UserGroup(group, user);
     }
 }
