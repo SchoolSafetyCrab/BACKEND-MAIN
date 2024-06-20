@@ -26,16 +26,12 @@ public class UserGroup {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
     private UserGroup(Group group, User user) {
         this.group = group;
         this.user = user;
     }
 
     public static UserGroup createUserGroup(Group group, User user) {
-        return UserGroup.builder()
-                .group(group)
-                .user(user)
-                .build();
+        return new UserGroup(group, user);
     }
 }

@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.group.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
-import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupService;
 import com.schoolsafetycrab.domain.user.model.Role;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,11 +32,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebMvcTest(
-        controllers = GroupController.class,
+        controllers = GroupTeacherController.class,
         excludeFilters = {@ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
 )
 @MockBean(JpaMetamodelMappingContext.class)
-public class GroupControllerTest {
+public class GroupTeacherControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

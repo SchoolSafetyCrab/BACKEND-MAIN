@@ -26,14 +26,10 @@ public class GroupService {
     private final UserGroupRepository userGroupRepository;
 
     @Transactional
-    public void createGroup(Authentication authentication, CreateGroupRequestDto requestDto) {
+    public void createGroup(Authentication authentication, CreateGroupRequestDto createGroupRequestDto) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
-        if(!user.getRole().equals(Role.ROLE_TEACHER)){
-            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
-        }
-
-        Group group = Group.createGroup(requestDto);
+        Group group = Group.createGroup(createGroupRequestDto);
         groupRepository.save(group);
 
 

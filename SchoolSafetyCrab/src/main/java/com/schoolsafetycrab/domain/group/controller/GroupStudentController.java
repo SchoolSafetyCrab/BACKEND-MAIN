@@ -16,17 +16,9 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
-public class GroupController {
+@RequestMapping("/api/student/group")
+public class GroupStudentController {
 
     private final GroupService groupService;
     private final HttpResponseUtil responseUtil;
-
-    @PostMapping("/teacher/group/create")
-    public ResponseEntity<?> createGroup(Authentication authentication, @RequestBody CreateGroupRequestDto requestDto) {
-        groupService.createGroup(authentication, requestDto);
-        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessGroupMessage.SUCCESS_CREATE_GROUP);
-
-        return response;
-    }
 }
