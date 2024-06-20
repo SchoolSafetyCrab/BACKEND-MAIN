@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class DeleteSchoolWayRequest {
+public class DeleteSchoolWayRequestDto {
 
     @NotBlank
     private long schoolwayId;
