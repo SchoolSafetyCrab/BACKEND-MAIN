@@ -1,7 +1,7 @@
 package com.schoolsafetycrab.domain.schoolway.controller;
 
 import com.schoolsafetycrab.domain.schoolway.message.SuccessSchoolWayMessage;
-import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.service.SchoolWayService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;

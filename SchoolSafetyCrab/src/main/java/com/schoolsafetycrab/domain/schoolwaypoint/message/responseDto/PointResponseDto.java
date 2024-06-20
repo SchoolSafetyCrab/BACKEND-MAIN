@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.schoolway.message.responseDto;
+package com.schoolsafetycrab.domain.schoolwaypoint.message.responseDto;
 
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import lombok.AccessLevel;

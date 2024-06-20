@@ -1,6 +1,5 @@
 package com.schoolsafetycrab.domain.schoolwaypoint.repository;
 
-import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.User;
@@ -15,5 +14,5 @@ public interface SchoolWayPointRepository extends JpaRepository<SchoolWayPoint, 
     void deleteAllBySchoolWay(SchoolWay schoolWay);
 
     @Override
-    List<PointResponseDto> findByUser(User user);
+    List<SchoolWayPoint> findByUser(User user);
 }

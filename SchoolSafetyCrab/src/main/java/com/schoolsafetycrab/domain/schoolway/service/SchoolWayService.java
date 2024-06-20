@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.service;
 
-import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,8 +64,15 @@ public class SchoolWayService {
     @Transactional
     public List<PointResponseDto> findMySchoolWay(Authentication authentication){
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-        List<PointResponseDto> points = schoolWayPointRepository.findByUser(user);
+        List<SchoolWayPoint> points = schoolWayPointRepository.findByUser(user);
 
-        return points;
+        List<PointResponseDto> responses = new ArrayList<>();
+
+        for(SchoolWayPoint point : points){
+            PointResponseDto response = PointResponseDto.createPointResponseDto(point);
+            responses.add(response);
+        }
+
+        return responses;
     }
 }
