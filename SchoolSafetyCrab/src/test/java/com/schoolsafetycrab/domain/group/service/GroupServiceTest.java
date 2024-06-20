@@ -1,10 +1,10 @@
 package com.schoolsafetycrab.domain.group.service;
 
-import com.schoolsafetycrab.domain.group.repository.GroupingRepository;
+import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
-import com.schoolsafetycrab.domain.usergroup.repository.UserGroupingRepository;
+import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +24,10 @@ public class GroupServiceTest {
     private GroupService groupService;
 
     @Mock
-    private GroupingRepository groupingRepository;
+    private GroupRepository groupRepository;
 
     @Mock
-    private UserGroupingRepository userGroupingRepository;
+    private UserGroupRepository userGroupRepository;
 
     @Mock
     private Authentication authentication;
