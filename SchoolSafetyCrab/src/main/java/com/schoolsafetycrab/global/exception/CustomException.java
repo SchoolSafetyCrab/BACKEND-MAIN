@@ -17,6 +17,7 @@ public enum CustomException {
     DUPLICATED_NUMBER_EXCEPTION(400,"DuplicatedNumberException","가입된 전화번호가 존재합니다."),
     DUPLICATED_ID_EXCEPTION(400,"DuplicatedIDException","가입된 아이디가 존재합니다."),
     DUPLICATED_GUARDIAN_ID_EXCEPTION(400,"DuplicatedGuardianIDException","해당 보호자가 존재합니다."),
+    NOT_FOUND_SCHOOL_WAY_EXCEPTION(400, "NotFoundSchoolWayException", "등하굣길이 존재하지 않습니다."),
 
     //인증 에러 401
     EXPIRED_JWT_EXCEPTION(401,"ExpiredJwtException","토큰이 만료했습니다."),
