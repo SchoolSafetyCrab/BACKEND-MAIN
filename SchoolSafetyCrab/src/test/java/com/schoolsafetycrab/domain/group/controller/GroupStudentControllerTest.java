@@ -3,6 +3,7 @@ package com.schoolsafetycrab.domain.group.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
+import com.schoolsafetycrab.domain.group.requestDto.RegistGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -32,11 +33,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebMvcTest(
-        controllers = GroupTeacherController.class,
+        controllers = GroupStudentController.class,
         excludeFilters = {@ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
 )
 @MockBean(JpaMetamodelMappingContext.class)
-public class GroupTeacherControllerTest {
+public class GroupStudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,30 +54,29 @@ public class GroupTeacherControllerTest {
     @Mock
     private Authentication authentication;
 
-    private CreateGroupRequestDto createGroupRequestDto;
+    private RegistGroupRequestDto registGroupRequestDto;
 
     @BeforeEach
     public void init(){
-        createGroupRequestDto = new CreateGroupRequestDto
-                ("한밭초등학교", 4, 2, 20, "12345");
+        registGroupRequestDto = new RegistGroupRequestDto(1, "12345");
     }
 
     @Test
-    @DisplayName("그룹 생성 성공 테스트")
-    @WithMockAuthUser(id="test", roles= Role.ROLE_TEACHER)
-    public void 그룹_생성_성공_테스트() throws Exception{
+    @DisplayName("그룹 등록 성공 테스트")
+    @WithMockAuthUser(id="test", roles= Role.ROLE_STUDENT)
+    public void 그룹_등록_성공_테스트() throws Exception{
         // given
-        String requestBody = objectMapper.writeValueAsString(createGroupRequestDto);
+        String requestBody = objectMapper.writeValueAsString(registGroupRequestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
-        mockResponseData.put("data", SuccessGroupMessage.SUCCESS_CREATE_GROUP);
+        mockResponseData.put("data", SuccessGroupMessage.SUCCESS_REGIST_GROUP);
 
         // when
-        BDDMockito.doNothing().when(groupService).createGroup(authentication, createGroupRequestDto);
-        BDDMockito.given(responseUtil.createResponse((SuccessGroupMessage.SUCCESS_CREATE_GROUP)))
+        BDDMockito.doNothing().when(groupService).registGroup(authentication, registGroupRequestDto);
+        BDDMockito.given(responseUtil.createResponse((SuccessGroupMessage.SUCCESS_REGIST_GROUP)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         // then
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher/create/group")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/student/regist/group")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
