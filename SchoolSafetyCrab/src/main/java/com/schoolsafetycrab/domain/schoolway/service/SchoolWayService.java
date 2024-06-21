@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.schoolway.service;
 
-import com.schoolsafetycrab.domain.schoolwaypoint.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;

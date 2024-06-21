@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.schoolwaypoint.message.responseDto;
+package com.schoolsafetycrab.domain.schoolway.message.responseDto;
 
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import lombok.AccessLevel;
@@ -12,7 +12,7 @@ public class PointResponseDto {
     private String latitude;
     private String longitude;
 
-    private PointResponseDto(String latitude, String longitude) {
+    public PointResponseDto(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

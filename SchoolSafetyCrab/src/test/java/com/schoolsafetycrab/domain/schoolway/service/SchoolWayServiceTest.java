@@ -1,9 +1,11 @@
 package com.schoolsafetycrab.domain.schoolway.service;
 
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.repository.SchoolWayRepository;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.schoolwaypoint.repository.SchoolWayPointRepository;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
@@ -45,8 +47,10 @@ public class SchoolWayServiceTest {
 
     private SchoolWayPointRequestDto schoolWayPointRequestDto;
     private PointRequestDto pointRequestDto;
+    private PointResponseDto pointResponseDto;
     private User student;
     private SchoolWay schoolWay;
+    private List<SchoolWayPoint> schoolWayPoints;
 
     @BeforeEach
     public void init(){
@@ -56,6 +60,8 @@ public class SchoolWayServiceTest {
         points.add(pointRequestDto);
         schoolWayPointRequestDto = new SchoolWayPointRequestDto(points);
         schoolWay = SchoolWay.createSchoolWay(student);
+        schoolWayPoints = new ArrayList<>();
+        schoolWayPoints.add(SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2"));
     }
 
     @Test
@@ -81,5 +87,20 @@ public class SchoolWayServiceTest {
 
         //when
         Assertions.assertThatNoException().isThrownBy(()->schoolWayService.deleteSchoolWay(authentication));
+    }
+
+    @Test
+    @DisplayName("등하굣길 조회 성공 테스트")
+    public void 등하굣길_조회_성공_테스트(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(student);
+        BDDMockito.given(schoolWayPointRepository.findByUser(student)).willReturn(schoolWayPoints);
+
+        //when
+        List<PointResponseDto> responses = schoolWayService.findMySchoolWay(authentication);
+
+        //then
+        Assertions.assertThat(responses.size()).isEqualTo(1);
     }
 }
