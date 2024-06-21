@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegistGroupRequestDto {
 
-    @NotBlank
+    @NotNull
     private long groupId;
 
-    @NotNull
+    @NotBlank
     private String groupCode;
 }

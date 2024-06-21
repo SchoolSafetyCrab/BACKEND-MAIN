@@ -49,6 +49,14 @@ public class GroupService {
         Group group = foundedGroup
                 .orElseThrow(() -> new ExceptionResponse(CustomException.NOT_MATCH_GROUP_CODE_EXCEPTION));
 
+
+        long currentUserNum = userGroupRepository.countByGroup_GroupId(group.getGroupId());
+
+        if (currentUserNum == group.getUserNum()) {
+            throw new ExceptionResponse(CustomException.EXCEED_GROUP_MEMBER_LIMIT_EXCEPTION);
+        }
+
+
         UserGroup userGroup = UserGroup.createUserGroup(group, user);
         userGroupRepository.save(userGroup);
     }
