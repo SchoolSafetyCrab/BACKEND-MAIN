@@ -4,6 +4,7 @@ import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenRespon
 import com.schoolsafetycrab.domain.guardian.repository.GuardianRepository;
 import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -48,9 +49,17 @@ public class GuardianService {
             throw new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION);
         };
 
+        if(!guardianRepository.existsGuardianByUser_userIdAndId(requestDto.getUserId(), user.getId())){
+            throw new ExceptionResponse(CustomException.NOT_FOUND_CHILDREN_ID_EXCEPTION);
+        }
 
+        List<SchoolWayPoint> points = guardianRepository.findSchoolWayByMyChildren(requestDto.getUserId());
 
         List<PointResponseDto> responses = new ArrayList<>();
+
+        for(SchoolWayPoint point : points){
+            responses.add(PointResponseDto.createPointResponseDto(point));
+        }
 
         return responses;
     }

@@ -17,6 +17,7 @@ public enum CustomException {
     DUPLICATED_NUMBER_EXCEPTION(400,"DuplicatedNumberException","가입된 전화번호가 존재합니다."),
     DUPLICATED_ID_EXCEPTION(400,"DuplicatedIDException","가입된 아이디가 존재합니다."),
     DUPLICATED_GUARDIAN_ID_EXCEPTION(400,"DuplicatedGuardianIDException","해당 보호자가 존재합니다."),
+    NOT_FOUND_CHILDREN_ID_EXCEPTION(400, "NotFoundChildrenIdException", "해당 자녀가 존재하지 않습니다."),
     NOT_FOUND_SCHOOL_WAY_EXCEPTION(400, "NotFoundSchoolWayException", "등하굣길이 존재하지 않습니다."),
     NOT_MATCH_GROUP_CODE_EXCEPTION(400,"NotMatchGroupCodeException","그룹코드가 일치하지 않습니다."),
     EXCEED_GROUP_MEMBER_LIMIT_EXCEPTION(400,"ExceedGroupMemberLimitException","그룹 인원이 많아 참여할 수 없습니다."),
