@@ -30,8 +30,8 @@ public class GuardianController {
     }
 
     @GetMapping("/schoolway")
-    public ResponseEntity<?> myChildrenSchoolWay(Authentication authentication, @RequestParam long id){
-        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, id);
+    public ResponseEntity<?> myChildrenSchoolWay(Authentication authentication, @RequestParam("userId") long userId){
+        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, userId);
         ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(responses);
         return response;
     }
