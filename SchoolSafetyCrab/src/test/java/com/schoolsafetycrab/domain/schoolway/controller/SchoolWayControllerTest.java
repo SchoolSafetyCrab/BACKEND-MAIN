@@ -2,9 +2,12 @@ package com.schoolsafetycrab.domain.schoolway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.schoolway.message.SuccessSchoolWayMessage;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolway.requestDto.PointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.service.SchoolWayService;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.message.SuccessSignUpMessage;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
@@ -62,6 +65,7 @@ public class SchoolWayControllerTest {
 
     private SchoolWayPointRequestDto schoolWayPointRequestDto;
     private PointRequestDto pointRequestDto;
+    private List<PointResponseDto> responses;
 
     @BeforeEach
     public void init(){
@@ -69,6 +73,13 @@ public class SchoolWayControllerTest {
         List<PointRequestDto> points = new ArrayList<>();
         points.add(pointRequestDto);
         schoolWayPointRequestDto = new SchoolWayPointRequestDto(points);
+
+        responses = new ArrayList<>();
+        User user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
+        SchoolWayPoint schoolWayPoint = SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2");
+        PointResponseDto pointResponseDto = PointResponseDto.createPointResponseDto(schoolWayPoint);
+        responses.add(pointResponseDto);
     }
 
     @Test
@@ -114,6 +125,25 @@ public class SchoolWayControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("등하굣길 조회 성공 테스트")
+    @WithMockAuthUser(id = "test", roles = Role.ROLE_STUDENT)
+    public void 등하굣길_조회_성공_테스트() throws Exception{
+        //given
+        Map<String, Object> mockResponseData = new HashMap<>();
+        mockResponseData.put("data", responses);
+
+        BDDMockito.given(schoolWayService.findMySchoolWay(authentication)).willReturn(responses);
+        BDDMockito.given(responseUtil.createResponse(responses))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        //then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/student/find/schoolway")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON));
         result.andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
