@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 
 @ExtendWith(MockitoExtension.class)
-public class GroupServiceTest {
+public class CreateGroupServiceTest {
 
     @InjectMocks
     private GroupService groupService;
