@@ -76,7 +76,7 @@ public class GroupTeacherControllerTest {
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         // then
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher/group/create")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher/create/group")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)

@@ -18,13 +18,13 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/student/group")
+@RequestMapping("/api/student")
 public class GroupStudentController {
 
     private final GroupService groupService;
     private final HttpResponseUtil responseUtil;
 
-    @PostMapping("/regist")
+    @PostMapping("/regist/group")
     public ResponseEntity<?> registGroup(Authentication authentication, @Valid @RequestBody RegistGroupRequestDto registGroupRequestDto) {
         groupService.registGroup(authentication, registGroupRequestDto);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessGroupMessage.SUCCESS_REGIST_GROUP);
