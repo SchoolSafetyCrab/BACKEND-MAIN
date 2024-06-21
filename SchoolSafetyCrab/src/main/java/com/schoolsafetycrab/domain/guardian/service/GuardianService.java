@@ -2,7 +2,12 @@ package com.schoolsafetycrab.domain.guardian.service;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
 import com.schoolsafetycrab.domain.guardian.repository.GuardianRepository;
+import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.domain.user.repository.UserRepository;
+import com.schoolsafetycrab.global.exception.CustomException;
+import com.schoolsafetycrab.global.exception.ExceptionResponse;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +25,7 @@ import java.util.List;
 public class GuardianService {
 
     private final GuardianRepository guardianRepository;
+    private final UserRepository userRepository;
 
     public List<MyChildrenResponseDto> myChildren(Authentication authentication){
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
@@ -35,4 +41,17 @@ public class GuardianService {
         return responses;
     }
 
+    public List<PointResponseDto> findMyChildrenSchoolWay(Authentication authentication, MyChildrenSchoolWayRequestDto requestDto){
+        User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
+
+        if(!userRepository.existsUserByUserIdAndState(requestDto.getUserId(), true)){
+            throw new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION);
+        };
+
+
+
+        List<PointResponseDto> responses = new ArrayList<>();
+
+        return responses;
+    }
 }
