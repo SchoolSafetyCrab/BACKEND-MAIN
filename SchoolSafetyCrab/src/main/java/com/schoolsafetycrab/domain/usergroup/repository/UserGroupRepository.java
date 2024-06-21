@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 
+    boolean existsByUser_UserIdAndGroup_GroupId(Long userId, Long groupId);
+
     long countByGroup_GroupId(Long groupId);
 }

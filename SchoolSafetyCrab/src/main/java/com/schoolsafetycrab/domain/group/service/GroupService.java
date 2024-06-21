@@ -43,6 +43,10 @@ public class GroupService {
     public void registGroup(Authentication authentication, RegistGroupRequestDto registGroupRequestDto) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
+        if(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), registGroupRequestDto.getGroupId()))
+            throw new ExceptionResponse(CustomException.DUPLICATED_GROUP_MEMBER_EXCEPTION);
+
+
         Optional<Group> foundedGroup = groupRepository.findByGroupIdAndGroupCode(registGroupRequestDto.getGroupId(),
                 registGroupRequestDto.getGroupCode());
 

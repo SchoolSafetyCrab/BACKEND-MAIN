@@ -20,6 +20,7 @@ public enum CustomException {
     NOT_FOUND_SCHOOL_WAY_EXCEPTION(400, "NotFoundSchoolWayException", "등하굣길이 존재하지 않습니다."),
     NOT_MATCH_GROUP_CODE_EXCEPTION(400,"NotMatchGroupCodeException","그룹코드가 일치하지 않습니다."),
     EXCEED_GROUP_MEMBER_LIMIT_EXCEPTION(400,"ExceedGroupMemberLimitException","그룹 인원이 많아 참여할 수 없습니다."),
+    DUPLICATED_GROUP_MEMBER_EXCEPTION(400,"DuplicatedGroupMemberException","이미 가입된 그룹입니다."),
 
     //인증 에러 401
     EXPIRED_JWT_EXCEPTION(401,"ExpiredJwtException","토큰이 만료했습니다."),
