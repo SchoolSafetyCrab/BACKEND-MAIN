@@ -8,5 +8,5 @@ import java.util.List;
 public interface GuardianRepositoryCustom {
 
     List<User> findByMyChildren(String id);
-    List<SchoolWayPoint> fingByMyChildren(long userId);
+    List<SchoolWayPoint> fingSchoolWayByMyChildren(long userId);
 }
