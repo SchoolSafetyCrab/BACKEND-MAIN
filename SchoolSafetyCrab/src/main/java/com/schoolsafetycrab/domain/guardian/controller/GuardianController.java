@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,8 +30,8 @@ public class GuardianController {
     }
 
     @GetMapping("/schoolway")
-    public ResponseEntity<?> myChildrenSchoolWay(Authentication authentication, @Valid @RequestBody MyChildrenSchoolWayRequestDto requestDto){
-        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, requestDto);
+    public ResponseEntity<?> myChildrenSchoolWay(Authentication authentication, @RequestParam long id){
+        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, id);
         ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(responses);
         return response;
     }
