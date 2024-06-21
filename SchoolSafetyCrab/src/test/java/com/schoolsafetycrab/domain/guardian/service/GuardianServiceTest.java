@@ -77,8 +77,8 @@ public class GuardianServiceTest {
     }
 
     @Test
-    @DisplayName("보호자 자녀 길찾기 조회 테스트")
-    public void 보호자_자녀_길찾기_조회_테스트(){
+    @DisplayName("보호자 자녀 길찾기 조회 성공 테스트")
+    public void 보호자_자녀_길찾기_조회_성공_테스트(){
         //given
         BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
         BDDMockito.given(principalDetails.getUser()).willReturn(guardian);
