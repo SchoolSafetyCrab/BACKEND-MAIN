@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.guardian.service;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
 import com.schoolsafetycrab.domain.guardian.repository.GuardianRepository;
-import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.User;

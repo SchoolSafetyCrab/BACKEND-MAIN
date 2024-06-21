@@ -1,7 +1,6 @@
 package com.schoolsafetycrab.domain.guardian.controller;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
-import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.guardian.service.GuardianService;
 import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
@@ -56,7 +55,6 @@ public class GuardianControllerTest {
     private Authentication authentication;
 
     List<MyChildrenResponseDto> myChildrenResponse;
-    MyChildrenSchoolWayRequestDto myChildrenSchoolWayRequestDto;
     List<PointResponseDto> pointResponse;
 
     @BeforeEach
@@ -66,7 +64,6 @@ public class GuardianControllerTest {
         MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(user);
         myChildrenResponse.add(responseDto);
 
-        myChildrenSchoolWayRequestDto = new MyChildrenSchoolWayRequestDto(user.getUserId());
         SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
         pointResponse = new ArrayList<>();
         pointResponse.add(PointResponseDto.createPointResponseDto(SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2")));

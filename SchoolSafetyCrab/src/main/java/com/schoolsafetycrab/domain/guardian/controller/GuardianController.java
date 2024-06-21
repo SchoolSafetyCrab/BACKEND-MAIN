@@ -1,7 +1,6 @@
 package com.schoolsafetycrab.domain.guardian.controller;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
-import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.guardian.service.GuardianService;
 import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;

@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.guardian.service;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
 import com.schoolsafetycrab.domain.guardian.repository.GuardianRepository;
-import com.schoolsafetycrab.domain.guardian.requestDto.MyChildrenSchoolWayRequestDto;
 import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
 import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
@@ -45,19 +44,18 @@ public class GuardianServiceTest {
     private PrincipalDetails principalDetails;
 
     private User guardian;
+    private User student;
     private List<User> children;
-    private MyChildrenSchoolWayRequestDto requestDto;
     private List<SchoolWayPoint> schoolWayPoints;
 
     @BeforeEach
     public void init(){
         guardian = User.createUser("test1","test","test","test", Role.ROLE_PARENTS,"010-1111-1112");
         children = new ArrayList<>();
-        User  user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
-        children.add(user);
-        requestDto = new MyChildrenSchoolWayRequestDto(1);
+        student = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        children.add(student);
         schoolWayPoints = new ArrayList<>();
-        schoolWayPoints.add(SchoolWayPoint.createSchoolWayPoint(SchoolWay.createSchoolWay(user), "1", "2"));
+        schoolWayPoints.add(SchoolWayPoint.createSchoolWayPoint(SchoolWay.createSchoolWay(student), "1", "2"));
 
     }
 
@@ -82,12 +80,12 @@ public class GuardianServiceTest {
         //given
         BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
         BDDMockito.given(principalDetails.getUser()).willReturn(guardian);
-        BDDMockito.given(userRepository.existsUserByUserIdAndState(requestDto.getUserId(), true)).willReturn(true);
-        BDDMockito.given(guardianRepository.existsGuardianByUser_userIdAndId(requestDto.getUserId(), guardian.getId())).willReturn(true);
-        BDDMockito.given(guardianRepository.findSchoolWayByMyChildren(requestDto.getUserId())).willReturn(schoolWayPoints);
+        BDDMockito.given(userRepository.existsUserByUserIdAndState(student.getUserId(), true)).willReturn(true);
+        BDDMockito.given(guardianRepository.existsGuardianByUser_userIdAndId(student.getUserId(), guardian.getId())).willReturn(true);
+        BDDMockito.given(guardianRepository.findSchoolWayByMyChildren(student.getUserId())).willReturn(schoolWayPoints);
 
         //when
-        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, requestDto);
+        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, student.getUserId());
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
