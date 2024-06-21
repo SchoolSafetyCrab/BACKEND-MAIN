@@ -54,17 +54,18 @@ public class GuardianControllerTest {
     @Mock
     private Authentication authentication;
 
+    User student;
     List<MyChildrenResponseDto> myChildrenResponse;
     List<PointResponseDto> pointResponse;
 
     @BeforeEach
     public void init(){
         myChildrenResponse = new ArrayList<>();
-        User user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
-        MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(user);
+        student = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(student);
         myChildrenResponse.add(responseDto);
 
-        SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
+        SchoolWay schoolWay = SchoolWay.createSchoolWay(student);
         pointResponse = new ArrayList<>();
         pointResponse.add(PointResponseDto.createPointResponseDto(SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2")));
     }
@@ -96,12 +97,13 @@ public class GuardianControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", pointResponse);
 
-        BDDMockito.given(guardianService.findMyChildrenSchoolWay(authentication, myChildrenSchoolWayRequestDto)).willReturn(pointResponse);
-        BDDMockito.given(responseUtil.createResponse(myChildrenSchoolWayRequestDto))
+        BDDMockito.given(guardianService.findMyChildrenSchoolWay(authentication, student.getUserId())).willReturn(pointResponse);
+        BDDMockito.given(responseUtil.createResponse(myChildrenResponse))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         //then
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/parents/schoolway")
+                .param("userId", String.valueOf(student.getUserId()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON));
         result.andExpect(MockMvcResultMatchers.status().isOk());
