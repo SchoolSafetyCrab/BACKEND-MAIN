@@ -1,6 +1,7 @@
 package com.schoolsafetycrab.domain.schoolway.controller;
 
 import com.schoolsafetycrab.domain.schoolway.message.SuccessSchoolWayMessage;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.domain.schoolway.requestDto.SchoolWayPointRequestDto;
 import com.schoolsafetycrab.domain.schoolway.service.SchoolWayService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,6 +33,13 @@ public class SchoolWayController {
     public ResponseEntity<?> deleteSchoolWay(Authentication authentication) {
         schoolWayService.deleteSchoolWay(authentication);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessSchoolWayMessage.SUCCESS_DELETE_SCHOOL_WAY);
+        return response;
+    }
+
+    @GetMapping("/find/schoolway")
+    public ResponseEntity<?> findMySchoolWay(Authentication authentication) {
+        List<PointResponseDto> responses = schoolWayService.findMySchoolWay(authentication);
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responses);
         return response;
     }
 }
