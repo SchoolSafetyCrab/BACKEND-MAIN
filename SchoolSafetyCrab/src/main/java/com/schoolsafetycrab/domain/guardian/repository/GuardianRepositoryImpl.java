@@ -30,7 +30,7 @@ public class GuardianRepositoryImpl implements GuardianRepositoryCustom{
     }
 
     @Override
-    public List<SchoolWayPoint> fingSchoolWayByMyChildren(long userId) {
+    public List<SchoolWayPoint> findSchoolWayByMyChildren(long userId) {
         return queryFactory
                 .select(schoolWayPoint)
                 .from(schoolWayPoint)
