@@ -42,18 +42,18 @@ public class GuardianService {
         return responses;
     }
 
-    public List<PointResponseDto> findMyChildrenSchoolWay(Authentication authentication, MyChildrenSchoolWayRequestDto requestDto){
+    public List<PointResponseDto> findMyChildrenSchoolWay(Authentication authentication, long id){
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
 
-        if(!userRepository.existsUserByUserIdAndState(requestDto.getUserId(), true)){
+        if(!userRepository.existsUserByUserIdAndState(id, true)){
             throw new ExceptionResponse(CustomException.NOT_FOUND_USER_EXCEPTION);
         };
 
-        if(!guardianRepository.existsGuardianByUser_userIdAndId(requestDto.getUserId(), user.getId())){
+        if(!guardianRepository.existsGuardianByUser_userIdAndId(id, user.getId())){
             throw new ExceptionResponse(CustomException.NOT_FOUND_CHILDREN_ID_EXCEPTION);
         }
 
-        List<SchoolWayPoint> points = guardianRepository.findSchoolWayByMyChildren(requestDto.getUserId());
+        List<SchoolWayPoint> points = guardianRepository.findSchoolWayByMyChildren(id);
 
         List<PointResponseDto> responses = new ArrayList<>();
 
