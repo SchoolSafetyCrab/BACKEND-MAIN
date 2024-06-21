@@ -12,6 +12,7 @@ import java.util.List;
 public interface GuardianRepository extends JpaRepository<Guardian,Long>, GuardianRepositoryCustom {
 
     boolean existsGuardianByUserAndId(User user, String id);
+    boolean existsGuardianByUser_userIdAndId(long userId, String id);
 
     @Override
     List<User> findByMyChildren(String id);
