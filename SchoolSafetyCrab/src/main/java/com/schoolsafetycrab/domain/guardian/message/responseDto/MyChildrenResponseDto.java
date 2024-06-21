@@ -9,13 +9,17 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MyChildrenResponseDto {
 
-    private String userId;
+    private long userId;
+    private String nickname;
+    private String iconImg;
 
-    private MyChildrenResponseDto(String userId) {
+    public MyChildrenResponseDto(long userId, String nickname, String iconImg) {
         this.userId = userId;
+        this.nickname = nickname;
+        this.iconImg = iconImg;
     }
 
     public static MyChildrenResponseDto userToMyChildrenResponseDto(User user){
-        return new MyChildrenResponseDto(user.getId());
+        return new MyChildrenResponseDto(user.getUserId(), user.getNickname(), user.getIconImg());
     }
 }
