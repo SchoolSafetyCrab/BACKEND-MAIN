@@ -1,9 +1,10 @@
 package com.schoolsafetycrab.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.schoolsafetycrab.domain.user.message.responseDto.UserInfoResponseDto;
 import com.schoolsafetycrab.domain.user.model.Role;
-import com.schoolsafetycrab.domain.user.requestDto.DesignateGuardianRequestDto;
-import com.schoolsafetycrab.domain.user.service.StudentService;
+import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.domain.user.service.UserService;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
@@ -30,13 +31,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebMvcTest(
-        controllers = StudentController.class,
+        controllers = UserController.class,
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
         }
 )
 @MockBean(JpaMetamodelMappingContext.class)
-public class UserStudentGuardianControllerTest {
+public class UserFindInfoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,7 +46,7 @@ public class UserStudentGuardianControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private StudentService studentService;
+    private UserService userService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -53,29 +54,28 @@ public class UserStudentGuardianControllerTest {
     @Mock
     private Authentication authentication;
 
-    private DesignateGuardianRequestDto requestDto;
+    private User user;
+    private UserInfoResponseDto responseDto;
 
     @BeforeEach
     public void init(){
-        requestDto = new DesignateGuardianRequestDto("test1");
+        user = User.createUser("test1","test","test","test", Role.ROLE_PARENTS,"010-1111-1112");
+        responseDto = UserInfoResponseDto.createUserInfoResponseDto(user);
     }
 
     @Test
-    @DisplayName("보호자 지정 성공 테스트")
+    @DisplayName("유저 조회 성공 테스트")
     @WithMockAuthUser(id = "test@gmail.com", roles = Role.ROLE_STUDENT)
-    public void 보호자_지정_성공_테스트() throws Exception{
+    public void 유저_조회_성공_테스트() throws Exception{
         //given
-        String requestBody = objectMapper.writeValueAsString(requestDto);
         Map<String, Object> mockResponseData = new HashMap<>();
+        BDDMockito.given(userService.findUserInfo(authentication)).willReturn(responseDto);
 
-        //when
-        BDDMockito.doNothing().when(studentService).designateGuardian(authentication,requestDto);
-
-        //then
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/student/designate/guardian")
+        //when then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody));
+        );
         result.andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
