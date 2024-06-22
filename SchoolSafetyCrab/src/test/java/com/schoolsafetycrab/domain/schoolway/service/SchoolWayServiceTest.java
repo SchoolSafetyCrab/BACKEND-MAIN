@@ -47,7 +47,6 @@ public class SchoolWayServiceTest {
 
     private SchoolWayPointRequestDto schoolWayPointRequestDto;
     private PointRequestDto pointRequestDto;
-    private PointResponseDto pointResponseDto;
     private User student;
     private SchoolWay schoolWay;
     private List<SchoolWayPoint> schoolWayPoints;
