@@ -2,6 +2,9 @@ package com.schoolsafetycrab.domain.guardian.controller;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
 import com.schoolsafetycrab.domain.guardian.service.GuardianService;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -51,14 +54,20 @@ public class GuardianControllerTest {
     @Mock
     private Authentication authentication;
 
-    List<MyChildrenResponseDto> responses;
+    User student;
+    List<MyChildrenResponseDto> myChildrenResponse;
+    List<PointResponseDto> pointResponse;
 
     @BeforeEach
     public void init(){
-        responses = new ArrayList<>();
-        User user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
-        MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(user);
-        responses.add(responseDto);
+        myChildrenResponse = new ArrayList<>();
+        student = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        MyChildrenResponseDto responseDto = MyChildrenResponseDto.userToMyChildrenResponseDto(student);
+        myChildrenResponse.add(responseDto);
+
+        SchoolWay schoolWay = SchoolWay.createSchoolWay(student);
+        pointResponse = new ArrayList<>();
+        pointResponse.add(PointResponseDto.createPointResponseDto(SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2")));
     }
 
     @Test
@@ -67,14 +76,34 @@ public class GuardianControllerTest {
     public void 보호자_자식_조회_성공_테스트() throws Exception{
         //given
         Map<String, Object> mockResponseData = new HashMap<>();
-        mockResponseData.put("data",responses);
+        mockResponseData.put("data",myChildrenResponse);
 
-        BDDMockito.given(guardianService.myChildren(authentication)).willReturn(responses);
-        BDDMockito.given(responseUtil.createResponse(responses))
+        BDDMockito.given(guardianService.myChildren(authentication)).willReturn(myChildrenResponse);
+        BDDMockito.given(responseUtil.createResponse(myChildrenResponse))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         //then
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/parents")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("보호자 자녀 길찾기 조회 성공 테스트")
+    @WithMockAuthUser(id = "test1", roles = Role.ROLE_PARENTS)
+    public void 보호자_자녀_길찾기_조회_성공_테스트() throws Exception{
+        //given
+        Map<String, Object> mockResponseData = new HashMap<>();
+        mockResponseData.put("data", pointResponse);
+
+        BDDMockito.given(guardianService.findMyChildrenSchoolWay(authentication, student.getUserId())).willReturn(pointResponse);
+        BDDMockito.given(responseUtil.createResponse(myChildrenResponse))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        //then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/parents/schoolway")
+                .param("userId", String.valueOf(student.getUserId()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON));
         result.andExpect(MockMvcResultMatchers.status().isOk());

@@ -2,8 +2,12 @@ package com.schoolsafetycrab.domain.guardian.service;
 
 import com.schoolsafetycrab.domain.guardian.message.responseDto.MyChildrenResponseDto;
 import com.schoolsafetycrab.domain.guardian.repository.GuardianRepository;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,20 +35,28 @@ public class GuardianServiceTest {
     private GuardianRepository guardianRepository;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private Authentication authentication;
 
     @Mock
     private PrincipalDetails principalDetails;
 
     private User guardian;
+    private User student;
     private List<User> children;
+    private List<SchoolWayPoint> schoolWayPoints;
 
     @BeforeEach
     public void init(){
         guardian = User.createUser("test1","test","test","test", Role.ROLE_PARENTS,"010-1111-1112");
         children = new ArrayList<>();
-        User  user = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
-        children.add(user);
+        student = User.createUser("test","test","test","test", Role.ROLE_STUDENT,"010-1111-1111");
+        children.add(student);
+        schoolWayPoints = new ArrayList<>();
+        schoolWayPoints.add(SchoolWayPoint.createSchoolWayPoint(SchoolWay.createSchoolWay(student), "1", "2"));
+
     }
 
     @Test
@@ -57,6 +69,23 @@ public class GuardianServiceTest {
 
         //when
         List<MyChildrenResponseDto> responses = guardianService.myChildren(authentication);
+
+        //then
+        Assertions.assertThat(responses.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("보호자 자녀 길찾기 조회 성공 테스트")
+    public void 보호자_자녀_길찾기_조회_성공_테스트(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(guardian);
+        BDDMockito.given(userRepository.existsUserByUserIdAndState(student.getUserId(), true)).willReturn(true);
+        BDDMockito.given(guardianRepository.existsGuardianByUser_userIdAndId(student.getUserId(), guardian.getId())).willReturn(true);
+        BDDMockito.given(guardianRepository.findSchoolWayByMyChildren(student.getUserId())).willReturn(schoolWayPoints);
+
+        //when
+        List<PointResponseDto> responses = guardianService.findMyChildrenSchoolWay(authentication, student.getUserId());
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
