@@ -14,4 +14,6 @@ public interface GroupRepository extends JpaRepository<Group, Long>, GroupReposi
 
     @Override
     List<Group> findGroupByUserId(Long id);
+
+
 }

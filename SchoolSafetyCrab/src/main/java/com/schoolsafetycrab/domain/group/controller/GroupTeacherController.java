@@ -30,6 +30,6 @@ public class GroupTeacherController {
 
     @GetMapping("/find/member/group")
     public ResponseEntity<?> findGroupMembers(Authentication authentication, @RequestParam("groupId") long groupId) {
-
+        return null;
     }
 }
