@@ -67,5 +67,9 @@ public class GroupService {
     }
 
     public GroupInfoResponseDto findGroupList(Authentication authentication) {
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+
+
+
     }
 }
