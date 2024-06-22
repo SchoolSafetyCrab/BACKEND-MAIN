@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.user.service;
 
 import com.schoolsafetycrab.domain.user.message.responseDto.UserInfoResponseDto;
 import com.schoolsafetycrab.domain.user.model.User;
-import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

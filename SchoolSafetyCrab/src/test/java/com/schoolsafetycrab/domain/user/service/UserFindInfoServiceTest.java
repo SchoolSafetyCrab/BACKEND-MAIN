@@ -1,11 +1,8 @@
 package com.schoolsafetycrab.domain.user.service;
 
-import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
-import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.message.responseDto.UserInfoResponseDto;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
-import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
-
-import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
 public class UserFindInfoServiceTest {
