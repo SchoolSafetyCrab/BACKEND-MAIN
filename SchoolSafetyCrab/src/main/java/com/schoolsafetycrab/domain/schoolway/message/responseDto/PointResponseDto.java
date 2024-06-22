@@ -12,7 +12,7 @@ public class PointResponseDto {
     private String latitude;
     private String longitude;
 
-    public PointResponseDto(String latitude, String longitude) {
+    private PointResponseDto(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
