@@ -94,4 +94,16 @@ public class GroupService {
 
         return responses;
     }
+
+    public List<GroupInfoResponseDto> searchGroup(String keyword){
+        List<Group> groupList = groupRepository.findGroupByKeyword(keyword);
+
+        List<GroupInfoResponseDto> responses = new ArrayList<>();
+
+        for(Group group : groupList) {
+            responses.add(GroupInfoResponseDto.createGroupInfoResponseDto(group));
+        }
+
+        return responses;
+    }
 }
