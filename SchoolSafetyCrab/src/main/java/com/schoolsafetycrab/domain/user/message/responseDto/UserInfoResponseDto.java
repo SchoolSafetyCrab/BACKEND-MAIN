@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class InfoUserResponseDto {
+public class UserInfoResponseDto {
 
     private String nickName;
     private String userImg;
 
-    private InfoUserResponseDto(String nickName, String userImg) {
+    private UserInfoResponseDto(String nickName, String userImg) {
         this.nickName = nickName;
         this.userImg = userImg;
     }
 
-    public static InfoUserResponseDto createInfoUserResponseDto(User user){
-        return new InfoUserResponseDto(user.getNickname(),user.getIconImg());
+    public static UserInfoResponseDto createUserInfoResponseDto(User user){
+        return new UserInfoResponseDto(user.getNickname(),user.getIconImg());
     }
 }

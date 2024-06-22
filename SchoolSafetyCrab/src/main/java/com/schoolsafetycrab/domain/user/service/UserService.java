@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.user.service;
 
+import com.schoolsafetycrab.domain.user.message.responseDto.UserInfoResponseDto;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.user.repository.UserRepository;
 import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
@@ -15,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class UserService {
 
-    public void findUserInfo(Authentication authentication){
+    public UserInfoResponseDto findUserInfo(Authentication authentication){
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
+        UserInfoResponseDto responseDto = UserInfoResponseDto.createUserInfoResponseDto(user);
+        return responseDto;
     }
 }
