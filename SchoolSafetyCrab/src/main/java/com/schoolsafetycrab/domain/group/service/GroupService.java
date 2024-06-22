@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.group.service;
 
-import com.schoolsafetycrab.domain.group.message.responseDto.GroupListResponseDto;
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
@@ -66,6 +66,6 @@ public class GroupService {
         userGroupRepository.save(userGroup);
     }
 
-    public GroupListResponseDto findGroupList(Authentication authentication) {
+    public GroupInfoResponseDto findGroupList(Authentication authentication) {
     }
 }
