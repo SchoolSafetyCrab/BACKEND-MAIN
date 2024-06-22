@@ -20,8 +20,8 @@ public class GroupCommonController {
     private final HttpResponseUtil responseUtil;
 
     @GetMapping("/find/group")
-    public ResponseEntity<?> findGroupList(Authentication authentication) {
-        List<GroupInfoResponseDto> responseDto = groupService.findGroupList(authentication);
+    public ResponseEntity<?> findMyGroupList(Authentication authentication) {
+        List<GroupInfoResponseDto> responseDto = groupService.findMyGroupList(authentication);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
         return response;

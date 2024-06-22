@@ -19,6 +19,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
 
     @Override
     public List<Group> findGroupByKeyword(String keyword) {
+
         return queryFactory
                 .select(group)
                 .from(group)

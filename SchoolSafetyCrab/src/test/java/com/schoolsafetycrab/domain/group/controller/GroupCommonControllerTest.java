@@ -1,11 +1,9 @@
 package com.schoolsafetycrab.domain.group.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
-import com.schoolsafetycrab.domain.group.requestDto.RegistGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
@@ -77,14 +75,14 @@ public class GroupCommonControllerTest {
     }
 
     @Test
-    @DisplayName("사용자 그룹 정보 조회 성공 테스트")
+    @DisplayName("내 그룹 정보 조회 성공 테스트")
     @WithMockAuthUser(id="test", roles= Role.ROLE_STUDENT)
-    public void 사용자_그룹_정보_조회_성공_테스트() throws Exception{
+    public void 내_그룹_정보_조회_성공_테스트() throws Exception{
         //given
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", groupResponse);
 
-        BDDMockito.given(groupService.findGroupList(authentication))
+        BDDMockito.given(groupService.findMyGroupList(authentication))
                   .willReturn(groupResponse);
         BDDMockito.given(responseUtil.createResponse(groupResponse))
                   .willReturn(ResponseEntity.ok().body(mockResponseData));

@@ -69,7 +69,7 @@ public class GroupService {
         userGroupRepository.save(userGroup);
     }
 
-    public List<GroupInfoResponseDto> findGroupList(Authentication authentication) {
+    public List<GroupInfoResponseDto> findMyGroupList(Authentication authentication) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         List<Group> groupList = userGroupRepository.findGroupByUserId(user.getUserId());
