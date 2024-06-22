@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class UserGroupRepositoryCustomImpl implements UserGroupRepositoryCustom{
+public class UserGroupRepositoryImpl implements UserGroupRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     private QUser user = QUser.user;

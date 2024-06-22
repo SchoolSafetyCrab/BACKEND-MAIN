@@ -109,7 +109,7 @@ public class GroupTeacherControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", groupMemberResponse);
 
-        BDDMockito.given(groupService.findGroupMembers(group.getGroupId()))
+        BDDMockito.given(groupService.findGroupMembers(authentication, group.getGroupId()))
                 .willReturn(groupMemberResponse);
         BDDMockito.given(responseUtil.createResponse(groupMemberResponse))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));

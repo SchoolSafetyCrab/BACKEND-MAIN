@@ -83,13 +83,18 @@ public class GroupService {
         return responses;
     }
 
-    public List<GroupMemberResponseDto> findGroupMembers(Long groupId) {
+    public List<GroupMemberResponseDto> findGroupMembers(Authentication authentication, Long groupId) {
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+
+        if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
+            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
+
         List<User> userList = userGroupRepository.findGroupMemberByGroupId(groupId);
 
         List<GroupMemberResponseDto> responses = new ArrayList<>();
 
-        for(User user : userList) {
-            responses.add(GroupMemberResponseDto.createGroupMemberResponseDto(user));
+        for(User member : userList) {
+            responses.add(GroupMemberResponseDto.createGroupMemberResponseDto(member));
         }
 
         return responses;

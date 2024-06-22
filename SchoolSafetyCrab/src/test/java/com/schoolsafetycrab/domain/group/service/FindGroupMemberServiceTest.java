@@ -63,7 +63,7 @@ public class FindGroupMemberServiceTest {
         BDDMockito.given(userGroupRepository.findGroupMemberByGroupId(anyLong())).willReturn(userList);
 
         //when
-        List<GroupMemberResponseDto> responses = groupService.findGroupMembers(group.getGroupId());
+        List<GroupMemberResponseDto> responses = groupService.findGroupMembers(authentication, group.getGroupId());
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);

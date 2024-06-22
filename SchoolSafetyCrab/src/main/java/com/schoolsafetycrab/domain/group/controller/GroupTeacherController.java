@@ -31,8 +31,8 @@ public class GroupTeacherController {
     }
 
     @GetMapping("/member/group")
-    public ResponseEntity<?> findGroupMembers(@RequestParam("groupId") long groupId) {
-        List<GroupMemberResponseDto> responseDto = groupService.findGroupMembers(groupId);
+    public ResponseEntity<?> findGroupMembers(Authentication authentication, @RequestParam("groupId") long groupId) {
+        List<GroupMemberResponseDto> responseDto = groupService.findGroupMembers(authentication, groupId);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
         return response;
