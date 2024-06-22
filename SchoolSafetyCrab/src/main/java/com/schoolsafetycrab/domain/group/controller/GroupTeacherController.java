@@ -1,6 +1,7 @@
 package com.schoolsafetycrab.domain.group.controller;
 
 import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +32,9 @@ public class GroupTeacherController {
 
     @GetMapping("/find/member/group")
     public ResponseEntity<?> findGroupMembers(@RequestParam("groupId") long groupId) {
-        return null;
+        List<GroupMemberResponseDto> responseDto = groupService.findGroupMembers(groupId);
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
+
+        return response;
     }
 }
