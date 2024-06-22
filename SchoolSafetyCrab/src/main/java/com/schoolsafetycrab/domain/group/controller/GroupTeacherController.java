@@ -30,7 +30,7 @@ public class GroupTeacherController {
         return response;
     }
 
-    @GetMapping("/find/member/group")
+    @GetMapping("/member/group")
     public ResponseEntity<?> findGroupMembers(@RequestParam("groupId") long groupId) {
         List<GroupMemberResponseDto> responseDto = groupService.findGroupMembers(groupId);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
