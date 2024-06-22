@@ -1,6 +1,7 @@
 package com.schoolsafetycrab.domain.group.service;
 
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
@@ -77,6 +78,18 @@ public class GroupService {
 
         for(Group group : groupList) {
             responses.add(GroupInfoResponseDto.createGroupInfoResponseDto(group));
+        }
+
+        return responses;
+    }
+
+    public List<GroupMemberResponseDto> findGroupMembers(Long groupId) {
+        List<User> userList = userGroupRepository.findGroupMemberByGroupId(groupId);
+
+        List<GroupMemberResponseDto> responses = new ArrayList<>();
+
+        for(User user : userList) {
+            responses.add(GroupMemberResponseDto.createGroupMemberResponseDto(user));
         }
 
         return responses;
