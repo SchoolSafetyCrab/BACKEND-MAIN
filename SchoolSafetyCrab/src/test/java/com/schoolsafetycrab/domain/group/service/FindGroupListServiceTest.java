@@ -60,7 +60,7 @@ public class FindGroupListServiceTest {
         //given
         BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
         BDDMockito.given(principalDetails.getUser()).willReturn(user);
-        BDDMockito.given(groupRepository.findGroupByUserId(user.getUserId())).willReturn(groupList);
+        BDDMockito.given(userGroupRepository.findGroupByUserId(user.getUserId())).willReturn(groupList);
 
         //when
         List<GroupInfoResponseDto> responses = groupService.findGroupList(authentication);

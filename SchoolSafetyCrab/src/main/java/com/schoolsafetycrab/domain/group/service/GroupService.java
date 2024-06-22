@@ -71,7 +71,7 @@ public class GroupService {
     public List<GroupInfoResponseDto> findGroupList(Authentication authentication) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
-        List<Group> groupList = groupRepository.findGroupByUserId(user.getUserId());
+        List<Group> groupList = userGroupRepository.findGroupByUserId(user.getUserId());
 
         List<GroupInfoResponseDto> responses = new ArrayList<>();
 

@@ -8,12 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group, Long>, GroupRepositoryCustom {
+public interface GroupRepository extends JpaRepository<Group, Long> {
 
     Optional<Group> findByGroupIdAndGroupCode(Long groupId, String groupCode);
-
-    @Override
-    List<Group> findGroupByUserId(Long id);
-
-
 }
