@@ -19,7 +19,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom{
     public List<Group> findGroupByUserId(Long userId) {
         return queryFactory
                 .select(group)
-                .from(group)
+                .from(userGroup)
                 .join(userGroup.group, group)
                 .where(userGroup.user.userId.eq(userId))
                 .fetch();

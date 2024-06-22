@@ -17,16 +17,17 @@ public class GroupInfoResponseDto {
 
     private int schoolBan;
 
-//    private List<Alarm> alarmList;
+    private boolean state;
 
-    public GroupInfoResponseDto(long groupId, String schoolName, int schoolYear, int schoolBan) {
+    public GroupInfoResponseDto(long groupId, String schoolName, int schoolYear, int schoolBan, boolean state) {
         this.groupId = groupId;
         this.schoolName = schoolName;
         this.schoolYear = schoolYear;
         this.schoolBan = schoolBan;
+        this.state = state;
     }
 
     public static GroupInfoResponseDto createGroupInfoResponseDto(Group group) {
-        return new GroupInfoResponseDto(group.getGroupId(), group.getSchoolName(), group.getSchoolYear(), group.getSchoolBan());
+        return new GroupInfoResponseDto(group.getGroupId(), group.getSchoolName(), group.getSchoolYear(), group.getSchoolBan(), group.isState());
     }
 }
