@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,7 +21,7 @@ public class GroupCommonController {
 
     @GetMapping("/find/group")
     public ResponseEntity<?> findGroupList(Authentication authentication) {
-        GroupInfoResponseDto responseDto = groupService.findGroupList(authentication);
+        List<GroupInfoResponseDto> responseDto = groupService.findGroupList(authentication);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
         return response;

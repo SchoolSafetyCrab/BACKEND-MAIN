@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,10 +68,17 @@ public class GroupService {
         userGroupRepository.save(userGroup);
     }
 
-    public GroupInfoResponseDto findGroupList(Authentication authentication) {
+    public List<GroupInfoResponseDto> findGroupList(Authentication authentication) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
+        List<Group> groupList = groupRepository.findGroupByUserId(user.getUserId());
 
+        List<GroupInfoResponseDto> responses = new ArrayList<>();
 
+        for(Group group : groupList) {
+            responses.add(GroupInfoResponseDto.createGroupInfoResponseDto(group));
+        }
+
+        return responses;
     }
 }
