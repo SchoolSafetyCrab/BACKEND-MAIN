@@ -1,7 +1,7 @@
 package com.schoolsafetycrab.domain.notification.model;
 
 import com.schoolsafetycrab.domain.group.model.Group;
-import com.schoolsafetycrab.domain.notification.model.requestDto.CreateNotificationRequestDto;
+import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -55,7 +55,7 @@ public class Notification {
                 .title(requestDto.getTitle())
                 .detail(requestDto.getDetail())
                 .state(true)
-                .startDate(requestDto.getStartDate())
+                .startDate(LocalDate.now())
                 .endDate(requestDto.getEndDate())
                 .build();
     }

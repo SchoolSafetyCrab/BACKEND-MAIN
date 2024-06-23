@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.notification.model.requestDto;
+package com.schoolsafetycrab.domain.notification.requestDto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +22,6 @@ public class CreateNotificationRequestDto {
 
     @NotBlank
     private String detail;
-
-    @NotNull
-    private LocalDate startDate;
 
     @NotNull
     private LocalDate endDate;
