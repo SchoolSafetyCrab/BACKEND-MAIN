@@ -26,22 +26,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class GroupService {
+public class GroupStudentService {
 
     private final GroupRepository groupRepository;
     private final UserGroupRepository userGroupRepository;
-
-    @Transactional
-    public void createGroup(Authentication authentication, CreateGroupRequestDto createGroupRequestDto) {
-        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-
-        Group group = Group.createGroup(createGroupRequestDto);
-        groupRepository.save(group);
-
-
-        UserGroup userGroup = UserGroup.createUserGroup(group, user);
-        userGroupRepository.save(userGroup);
-    }
 
     @Transactional
     public void registGroup(Authentication authentication, RegistGroupRequestDto registGroupRequestDto) {
@@ -67,37 +55,6 @@ public class GroupService {
 
         UserGroup userGroup = UserGroup.createUserGroup(group, user);
         userGroupRepository.save(userGroup);
-    }
-
-    public List<GroupInfoResponseDto> findMyGroupList(Authentication authentication) {
-        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-
-        List<Group> groupList = userGroupRepository.findGroupByUserId(user.getUserId());
-
-        List<GroupInfoResponseDto> responses = new ArrayList<>();
-
-        for(Group group : groupList) {
-            responses.add(GroupInfoResponseDto.createGroupInfoResponseDto(group));
-        }
-
-        return responses;
-    }
-
-    public List<GroupMemberResponseDto> findGroupMembers(Authentication authentication, Long groupId) {
-        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-
-        if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
-            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
-
-        List<User> userList = userGroupRepository.findGroupMemberByGroupId(groupId);
-
-        List<GroupMemberResponseDto> responses = new ArrayList<>();
-
-        for(User member : userList) {
-            responses.add(GroupMemberResponseDto.createGroupMemberResponseDto(member));
-        }
-
-        return responses;
     }
 
     public List<GroupInfoResponseDto> searchGroup(String keyword){

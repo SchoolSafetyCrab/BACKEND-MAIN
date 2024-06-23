@@ -6,7 +6,8 @@ import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
 import com.schoolsafetycrab.domain.group.requestDto.RegistGroupRequestDto;
-import com.schoolsafetycrab.domain.group.service.GroupService;
+import com.schoolsafetycrab.domain.group.service.GroupCommonService;
+import com.schoolsafetycrab.domain.group.service.GroupStudentService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
@@ -52,7 +53,7 @@ public class GroupStudentControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GroupService groupService;
+    private GroupStudentService groupStudentService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -88,7 +89,7 @@ public class GroupStudentControllerTest {
         mockResponseData.put("data", SuccessGroupMessage.SUCCESS_REGIST_GROUP);
 
         // when
-        BDDMockito.doNothing().when(groupService).registGroup(authentication, registGroupRequestDto);
+        BDDMockito.doNothing().when(groupStudentService).registGroup(authentication, registGroupRequestDto);
         BDDMockito.given(responseUtil.createResponse((SuccessGroupMessage.SUCCESS_REGIST_GROUP)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
@@ -111,7 +112,7 @@ public class GroupStudentControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", groupResponse);
 
-        BDDMockito.given(groupService.searchGroup(any())).willReturn(groupResponse);
+        BDDMockito.given(groupStudentService.searchGroup(any())).willReturn(groupResponse);
         BDDMockito.given(responseUtil.createResponse(groupResponse))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 

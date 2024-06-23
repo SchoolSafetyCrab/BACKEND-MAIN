@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class FindGroupListServiceTest {
 
     @InjectMocks
-    private GroupService groupService;
+    private GroupCommonService groupCommonService;
 
     @Mock
     private GroupRepository groupRepository;
@@ -65,23 +65,10 @@ public class FindGroupListServiceTest {
         BDDMockito.given(userGroupRepository.findGroupByUserId(user.getUserId())).willReturn(groupList);
 
         //when
-        List<GroupInfoResponseDto> responses = groupService.findMyGroupList(authentication);
+        List<GroupInfoResponseDto> responses = groupCommonService.findMyGroupList(authentication);
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
     }
 
-    @Test
-    @DisplayName("키워드 기반 그룹 검색 성공 테스트")
-    public void 키워드_기반_그룹_검색_성공_테스트(){
-        //given
-        String keyword = "한밭";
-        BDDMockito.given(groupRepository.findGroupByKeyword(any())).willReturn(groupList);
-
-        //when
-        List<GroupInfoResponseDto> responses = groupService.searchGroup(keyword);
-
-        //then
-        Assertions.assertThat(responses.size()).isEqualTo(1);
-    }
 }

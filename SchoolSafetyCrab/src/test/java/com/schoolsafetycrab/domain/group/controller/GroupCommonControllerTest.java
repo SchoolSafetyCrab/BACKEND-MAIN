@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
-import com.schoolsafetycrab.domain.group.service.GroupService;
+import com.schoolsafetycrab.domain.group.service.GroupCommonService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -49,7 +49,7 @@ public class GroupCommonControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GroupService groupService;
+    private GroupCommonService groupCommonService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -82,7 +82,7 @@ public class GroupCommonControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", groupResponse);
 
-        BDDMockito.given(groupService.findMyGroupList(authentication))
+        BDDMockito.given(groupCommonService.findMyGroupList(authentication))
                   .willReturn(groupResponse);
         BDDMockito.given(responseUtil.createResponse(groupResponse))
                   .willReturn(ResponseEntity.ok().body(mockResponseData));

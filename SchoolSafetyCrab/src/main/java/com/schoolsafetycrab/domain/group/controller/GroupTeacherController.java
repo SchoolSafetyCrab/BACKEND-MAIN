@@ -3,7 +3,8 @@ package com.schoolsafetycrab.domain.group.controller;
 import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
-import com.schoolsafetycrab.domain.group.service.GroupService;
+import com.schoolsafetycrab.domain.group.service.GroupCommonService;
+import com.schoolsafetycrab.domain.group.service.GroupTeacherService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ import java.util.Map;
 @RequestMapping("/api/teacher")
 public class GroupTeacherController {
 
-    private final GroupService groupService;
+    private final GroupTeacherService groupTeacherService;
     private final HttpResponseUtil responseUtil;
 
     @PostMapping("/create/group")
     public ResponseEntity<?> createGroup(Authentication authentication, @Valid @RequestBody CreateGroupRequestDto createGroupRequestDto) {
-        groupService.createGroup(authentication, createGroupRequestDto);
+        groupTeacherService.createGroup(authentication, createGroupRequestDto);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessGroupMessage.SUCCESS_CREATE_GROUP);
 
         return response;
@@ -32,7 +33,7 @@ public class GroupTeacherController {
 
     @GetMapping("/member/group/{groupId}")
     public ResponseEntity<?> findGroupMembers(Authentication authentication, @PathVariable long groupId) {
-        List<GroupMemberResponseDto> responseDto = groupService.findGroupMembers(authentication, groupId);
+        List<GroupMemberResponseDto> responseDto = groupTeacherService.findGroupMembers(authentication, groupId);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
         return response;

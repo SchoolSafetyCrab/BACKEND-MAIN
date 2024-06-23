@@ -1,7 +1,7 @@
 package com.schoolsafetycrab.domain.group.controller;
 
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
-import com.schoolsafetycrab.domain.group.service.GroupService;
+import com.schoolsafetycrab.domain.group.service.GroupCommonService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.util.Map;
 @RequestMapping("/api")
 public class GroupCommonController {
 
-    private final GroupService groupService;
+    private final GroupCommonService groupCommonService;
     private final HttpResponseUtil responseUtil;
 
     @GetMapping("/find/group")
     public ResponseEntity<?> findMyGroupList(Authentication authentication) {
-        List<GroupInfoResponseDto> responseDto = groupService.findMyGroupList(authentication);
+        List<GroupInfoResponseDto> responseDto = groupCommonService.findMyGroupList(authentication);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
         return response;

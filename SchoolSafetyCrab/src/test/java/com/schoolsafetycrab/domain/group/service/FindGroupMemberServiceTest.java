@@ -1,6 +1,5 @@
 package com.schoolsafetycrab.domain.group.service;
 
-import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
@@ -31,7 +30,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 public class FindGroupMemberServiceTest {
 
     @InjectMocks
-    private GroupService groupService;
+    private GroupTeacherService groupTeacherService;
 
     @Mock
     private GroupRepository groupRepository;
@@ -72,7 +71,7 @@ public class FindGroupMemberServiceTest {
                 .willReturn(true);
 
         //when
-        List<GroupMemberResponseDto> responses = groupService.findGroupMembers(authentication, group.getGroupId());
+        List<GroupMemberResponseDto> responses = groupTeacherService.findGroupMembers(authentication, group.getGroupId());
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
@@ -90,7 +89,7 @@ public class FindGroupMemberServiceTest {
                 .willReturn(false);
 
         // when
-        Assertions.assertThatThrownBy(() -> groupService.findGroupMembers(authentication, group.getGroupId()))
+        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMembers(authentication, group.getGroupId()))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
 

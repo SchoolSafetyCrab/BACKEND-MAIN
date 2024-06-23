@@ -5,7 +5,8 @@ import com.schoolsafetycrab.domain.group.message.SuccessGroupMessage;
 import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
-import com.schoolsafetycrab.domain.group.service.GroupService;
+import com.schoolsafetycrab.domain.group.service.GroupCommonService;
+import com.schoolsafetycrab.domain.group.service.GroupTeacherService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -36,8 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-
 @WebMvcTest(
         controllers = GroupTeacherController.class,
         excludeFilters = {@ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
@@ -52,7 +51,7 @@ public class GroupTeacherControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GroupService groupService;
+    private GroupTeacherService groupTeacherService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -87,7 +86,7 @@ public class GroupTeacherControllerTest {
         mockResponseData.put("data", SuccessGroupMessage.SUCCESS_CREATE_GROUP);
 
         // when
-        BDDMockito.doNothing().when(groupService).createGroup(authentication, createGroupRequestDto);
+        BDDMockito.doNothing().when(groupTeacherService).createGroup(authentication, createGroupRequestDto);
         BDDMockito.given(responseUtil.createResponse((SuccessGroupMessage.SUCCESS_CREATE_GROUP)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
@@ -109,7 +108,7 @@ public class GroupTeacherControllerTest {
         Map<String, Object> mockResponseData = new HashMap<>();
         mockResponseData.put("data", groupMemberResponse);
 
-        BDDMockito.given(groupService.findGroupMembers(authentication, group.getGroupId()))
+        BDDMockito.given(groupTeacherService.findGroupMembers(authentication, group.getGroupId()))
                 .willReturn(groupMemberResponse);
         BDDMockito.given(responseUtil.createResponse(groupMemberResponse))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
