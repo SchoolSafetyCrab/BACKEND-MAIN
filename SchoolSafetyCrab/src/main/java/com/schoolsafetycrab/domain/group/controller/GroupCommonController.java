@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/common")
 public class GroupCommonController {
 
     private final GroupCommonService groupCommonService;

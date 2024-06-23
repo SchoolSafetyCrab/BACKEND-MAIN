@@ -88,7 +88,7 @@ public class GroupCommonControllerTest {
                   .willReturn(ResponseEntity.ok().body(mockResponseData));
 
         // then
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/find/group")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/common/find/group")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON));
 
