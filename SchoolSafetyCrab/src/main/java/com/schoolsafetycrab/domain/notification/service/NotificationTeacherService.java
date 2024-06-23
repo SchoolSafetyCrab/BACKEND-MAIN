@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,6 +45,8 @@ public class NotificationTeacherService {
 
         if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
             throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
+
+        notificationRepository.updateStateByEndDate(LocalDate.now());
 
         notificationRepository.deleteByNotificationId(notificationId);
     }
