@@ -10,17 +10,19 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserInfoResponseDto {
 
+    private String id;
     private String nickName;
     private String userImg;
     private Role role;
 
-    private UserInfoResponseDto(String nickName, String userImg, Role role) {
+    private UserInfoResponseDto(String id, String nickName, String userImg, Role role) {
+        this.id = id;
         this.nickName = nickName;
         this.userImg = userImg;
         this.role = role;
     }
 
     public static UserInfoResponseDto createUserInfoResponseDto(User user){
-        return new UserInfoResponseDto(user.getNickname(),user.getIconImg(), user.getRole());
+        return new UserInfoResponseDto(user.getId(), user.getNickname(),user.getIconImg(), user.getRole());
     }
 }
