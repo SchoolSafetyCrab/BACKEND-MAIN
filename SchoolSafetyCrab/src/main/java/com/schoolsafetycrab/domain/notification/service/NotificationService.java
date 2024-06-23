@@ -36,4 +36,17 @@ public class NotificationService {
 
         notificationRepository.save(Notification.createNotification(group, requestDto));
     }
+
+    @Transactional
+    public void deleteNotification(Authentication authentication, Long notificationId) {
+        User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
+
+        long groupId = notificationRepository.findByNotificationId(notificationId)
+                .orElseThrow(() -> new ExceptionResponse(CustomException.NOT_FOUND_NOTIFICATION_EXCEPTION)).getGroup().getGroupId();
+
+        if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
+            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
+
+        notificationRepository.deleteByNotificationId(notificationId);
+    }
 }

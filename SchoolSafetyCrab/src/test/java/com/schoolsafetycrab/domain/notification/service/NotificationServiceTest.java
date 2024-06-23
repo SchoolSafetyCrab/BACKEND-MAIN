@@ -2,6 +2,7 @@ package com.schoolsafetycrab.domain.notification.service;
 
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
+import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
 import com.schoolsafetycrab.domain.user.model.Role;
@@ -24,6 +25,8 @@ import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 public class NotificationServiceTest {
@@ -48,6 +51,7 @@ public class NotificationServiceTest {
     private User teacher;
     private Group group;
     private UserGroup userGroup;
+    private Notification notification;
 
     @BeforeEach
     public void init() {
@@ -56,6 +60,7 @@ public class NotificationServiceTest {
                 ("한밭초등학교", 4, 2, 20, "12345"));
         userGroup = UserGroup.createUserGroup(group, teacher);
         createNotificationRequestDto = new CreateNotificationRequestDto(1, "태풍 조심", "태풍 조심해서 등교하기", LocalDate.parse("2024-06-28"));
+        notification = Notification.createNotification(group, createNotificationRequestDto);
     }
 
     @Test
@@ -89,6 +94,26 @@ public class NotificationServiceTest {
 
         // then
         BDDMockito.then(userGroupRepository).should().findByUser_UserIdAndGroup_GroupId(teacher.getUserId(), createNotificationRequestDto.getGroupId());
+
     }
 
+    @Test
+    @DisplayName("공지 삭제 성공 테스트")
+    public void 공지_삭제_성공_테스트(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
+        BDDMockito.given(notificationRepository.findByNotificationId(notification.getNotificationId()))
+                .willReturn(Optional.ofNullable(notification));
+        BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(), notification.getGroup().getGroupId()))
+                .willReturn(true);
+
+        //when
+        Assertions.assertThatNoException().isThrownBy(()->notificationService.deleteNotification(authentication, notification.getNotificationId()));
+
+        BDDMockito.then(notificationRepository).should().findByNotificationId(notification.getNotificationId());
+        BDDMockito.then(userGroupRepository).should().existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(), notification.getGroup().getGroupId());
+        BDDMockito.then(notificationRepository).should().deleteByNotificationId(notification.getNotificationId());
+
+    }
 }
