@@ -30,13 +30,13 @@ public class Notification {
     @Column(name = "detail", columnDefinition = "TEXT", nullable = false)
     private String detail;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     private boolean state;
 
-    @Column(name = "start_date", columnDefinition = "DATE")
+    @Column(name = "start_date", columnDefinition = "DATE", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date", columnDefinition = "DATE")
+    @Column(name = "end_date", columnDefinition = "DATE", nullable = false)
     private LocalDate endDate;
 
     @Builder
