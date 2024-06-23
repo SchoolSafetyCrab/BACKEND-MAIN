@@ -25,10 +25,8 @@ import org.springframework.security.core.Authentication;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.*;
-
 @ExtendWith(MockitoExtension.class)
-public class CreateNotificationServiceTest {
+public class NotificationServiceTest {
 
     @InjectMocks
     private NotificationService notificationService;
