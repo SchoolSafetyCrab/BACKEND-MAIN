@@ -6,7 +6,7 @@ import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.notification.message.SuccessNotificationMessage;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
-import com.schoolsafetycrab.domain.notification.service.NotificationService;
+import com.schoolsafetycrab.domain.notification.service.NotificationTeacherService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
 import com.schoolsafetycrab.global.config.SecurityConfig;
@@ -36,11 +36,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebMvcTest(
-        controllers = NotificationController.class,
+        controllers = NotificationTeacherController.class,
         excludeFilters = {@ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
 )
 @MockBean(JpaMetamodelMappingContext.class)
-public class NotificationControllerTest {
+public class NotificationTeacherControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class NotificationControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private NotificationService notificationService;
+    private NotificationTeacherService notificationTeacherService;
 
     @MockBean
     private HttpResponseUtil responseUtil;
@@ -80,7 +80,7 @@ public class NotificationControllerTest {
         mockResponseData.put("data", SuccessNotificationMessage.SUCCESS_CREATE_NOTIFICATION);
 
         // when
-        BDDMockito.doNothing().when(notificationService).createNotification(authentication, requestDto);
+        BDDMockito.doNothing().when(notificationTeacherService).createNotification(authentication, requestDto);
         BDDMockito.given(responseUtil.createResponse((SuccessNotificationMessage.SUCCESS_CREATE_NOTIFICATION)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
@@ -103,7 +103,7 @@ public class NotificationControllerTest {
         mockResponseData.put("data", SuccessNotificationMessage.SUCCESS_DELETE_NOTIFICATION);
 
         // when
-        BDDMockito.doNothing().when(notificationService).deleteNotification(authentication, notification.getNotificationId());
+        BDDMockito.doNothing().when(notificationTeacherService).deleteNotification(authentication, notification.getNotificationId());
         BDDMockito.given(responseUtil.createResponse((SuccessNotificationMessage.SUCCESS_DELETE_NOTIFICATION)))
                 .willReturn(ResponseEntity.ok().body(mockResponseData));
 
