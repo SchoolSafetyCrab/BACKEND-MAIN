@@ -1,7 +1,10 @@
 package com.schoolsafetycrab.domain.notification.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.schoolsafetycrab.domain.group.model.Group;
+import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.notification.message.SuccessNotificationMessage;
+import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
 import com.schoolsafetycrab.domain.notification.service.NotificationService;
 import com.schoolsafetycrab.domain.user.model.Role;
@@ -55,10 +58,16 @@ public class NotificationControllerTest {
     private Authentication authentication;
 
     private CreateNotificationRequestDto requestDto;
+    private Notification notification;
+    private Group group;
 
     @BeforeEach
     public void init(){
+        group = Group.createGroup(new CreateGroupRequestDto
+                ("한밭초등학교", 4, 2, 20, "12345"));
         requestDto = new CreateNotificationRequestDto(1, "태풍 조심", "태풍 조심해서 등교하기", LocalDate.parse("2024-06-28"));
+
+        notification = Notification.createNotification(group, requestDto);
     }
 
     @Test
@@ -80,6 +89,28 @@ public class NotificationControllerTest {
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+        );
+
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("공지 삭제 성공 테스트")
+    @WithMockAuthUser(id="test", roles= Role.ROLE_TEACHER)
+    public void 공지_삭제_성공_테스트() throws Exception{
+        // given
+        Map<String, Object> mockResponseData = new HashMap<>();
+        mockResponseData.put("data", SuccessNotificationMessage.SUCCESS_DELETE_NOTIFICATION);
+
+        // when
+        BDDMockito.doNothing().when(notificationService).deleteNotification(authentication, notification.getNotificationId());
+        BDDMockito.given(responseUtil.createResponse((SuccessNotificationMessage.SUCCESS_DELETE_NOTIFICATION)))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        // then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/teacher/delete/notification/" + notification.getNotificationId())
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+
         );
 
         result.andExpect(MockMvcResultMatchers.status().isOk());
