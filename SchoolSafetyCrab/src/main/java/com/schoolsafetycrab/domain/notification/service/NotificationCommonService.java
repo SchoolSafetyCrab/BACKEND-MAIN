@@ -1,11 +1,8 @@
 package com.schoolsafetycrab.domain.notification.service;
 
-import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
-import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.notification.message.responseDto.NotificationListResponseDto;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
-import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -29,7 +26,7 @@ public class NotificationCommonService {
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
 
-    public List<GroupInfoResponseDto> findNotificationList(Authentication authentication, long groupId) {
+    public List<NotificationListResponseDto> findNotificationList(Authentication authentication, long groupId) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
@@ -40,7 +37,7 @@ public class NotificationCommonService {
         List<NotificationListResponseDto> responses = new ArrayList<>();
 
         for(Notification notification : notificationList) {
-            responses.add();
+            responses.add(NotificationListResponseDto.createNotificationListResponseDto(notification));
         }
 
         return responses;
