@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/student/**").hasRole("STUDENT")
                 .requestMatchers("/api/teacher/**").hasRole("TEACHER")
                 .requestMatchers("/api/parents/**").hasRole("PARENTS")
+                .requestMatchers("/api/common/**").hasAnyRole("STUDENT","TEACHER")
                 .anyRequest().denyAll()
         );
         http.exceptionHandling((handle) -> handle.authenticationEntryPoint(customExceptionHandler));

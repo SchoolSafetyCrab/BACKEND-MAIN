@@ -1,5 +1,7 @@
 package com.schoolsafetycrab.domain.group.service;
 
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponseDto;
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
@@ -16,28 +18,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class GroupService {
+public class GroupStudentService {
 
     private final GroupRepository groupRepository;
     private final UserGroupRepository userGroupRepository;
-
-    @Transactional
-    public void createGroup(Authentication authentication, CreateGroupRequestDto createGroupRequestDto) {
-        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-
-        Group group = Group.createGroup(createGroupRequestDto);
-        groupRepository.save(group);
-
-
-        UserGroup userGroup = UserGroup.createUserGroup(group, user);
-        userGroupRepository.save(userGroup);
-    }
 
     @Transactional
     public void registGroup(Authentication authentication, RegistGroupRequestDto registGroupRequestDto) {
@@ -63,5 +55,17 @@ public class GroupService {
 
         UserGroup userGroup = UserGroup.createUserGroup(group, user);
         userGroupRepository.save(userGroup);
+    }
+
+    public List<GroupInfoResponseDto> searchGroup(String keyword){
+        List<Group> groupList = groupRepository.findGroupByKeyword(keyword);
+
+        List<GroupInfoResponseDto> responses = new ArrayList<>();
+
+        for(Group group : groupList) {
+            responses.add(GroupInfoResponseDto.createGroupInfoResponseDto(group));
+        }
+
+        return responses;
     }
 }

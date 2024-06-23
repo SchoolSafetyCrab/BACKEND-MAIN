@@ -1,5 +1,7 @@
 package com.schoolsafetycrab.domain.group.service;
 
+import com.schoolsafetycrab.domain.group.message.responseDto.GroupInfoResponseDto;
+import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.user.model.Role;
@@ -17,11 +19,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+
 @ExtendWith(MockitoExtension.class)
-public class CreateGroupServiceTest {
+public class SearchGroupListServiceTest {
 
     @InjectMocks
-    private GroupTeacherService groupTeacherService;
+    private GroupStudentService groupStudentService;
 
     @Mock
     private GroupRepository groupRepository;
@@ -36,23 +43,30 @@ public class CreateGroupServiceTest {
     private PrincipalDetails principalDetails;
 
     private CreateGroupRequestDto createGroupRequestDto;
-    private User teacher;
+    private User user;
+    private List<Group> groupList;
 
     @BeforeEach
     public void init() {
-        teacher = User.createUser("test", "test", "test", "test", Role.ROLE_TEACHER, "010-1234-5678");
         createGroupRequestDto = new CreateGroupRequestDto
                 ("한밭초등학교", 4, 2, 20, "12345");
+
+        groupList = new ArrayList<>();
+        groupList.add(Group.createGroup(createGroupRequestDto));
     }
 
+
     @Test
-    @DisplayName("그룹 생성 성공 테스트")
-    public void 그룹_생성_성공_테스트(){
+    @DisplayName("키워드 기반 그룹 검색 성공 테스트")
+    public void 키워드_기반_그룹_검색_성공_테스트(){
         //given
-        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
-        BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
+        String keyword = "한밭";
+        BDDMockito.given(groupRepository.findGroupByKeyword(any())).willReturn(groupList);
 
         //when
-        Assertions.assertThatNoException().isThrownBy(()->groupTeacherService.createGroup(authentication, createGroupRequestDto));
+        List<GroupInfoResponseDto> responses = groupStudentService.searchGroup(keyword);
+
+        //then
+        Assertions.assertThat(responses.size()).isEqualTo(1);
     }
 }
