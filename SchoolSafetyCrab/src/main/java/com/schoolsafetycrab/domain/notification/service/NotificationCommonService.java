@@ -27,6 +27,7 @@ public class NotificationCommonService {
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
 
+    @Transactional
     public List<NotificationListResponseDto> findNotificationList(Authentication authentication, long groupId) {
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
