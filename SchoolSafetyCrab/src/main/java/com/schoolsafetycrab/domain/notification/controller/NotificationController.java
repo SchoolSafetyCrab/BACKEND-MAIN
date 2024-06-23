@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,6 +26,14 @@ public class NotificationController {
         notificationService.createNotification(authentication, requestDto);
 
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessNotificationMessage.SUCCESS_CREATE_NOTIFICATION);
+
+        return response;
+    }
+
+    @DeleteMapping("/delete/notification/{notificationId}")
+    public ResponseEntity<?> deleteNotification(Authentication authentication, @PathVariable("notificationId") long notificationId) {
+        notificationService.deleteNotification(authentication, notificationId);
+        ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(SuccessNotificationMessage.SUCCESS_DELETE_NOTIFICATION);
 
         return response;
     }

@@ -47,6 +47,6 @@ public class NotificationService {
         if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(), groupId))
             throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
 
-        notificationRepository.deleteById(notificationId);
+        notificationRepository.deleteByNotificationId(notificationId);
     }
 }
