@@ -9,14 +9,19 @@ import com.schoolsafetycrab.domain.usergroup.model.UserGroup;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
+import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class NotificationService {
 
     private final UserGroupRepository userGroupRepository;
@@ -24,11 +29,10 @@ public class NotificationService {
 
     @Transactional
     public void createNotification(Authentication authentication, CreateNotificationRequestDto requestDto) {
-        User user = (User) authentication.getPrincipal();
+        User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
 
         Group group = userGroupRepository.findByUser_UserIdAndGroup_GroupId(user.getUserId(), requestDto.getGroupId())
-                .map(UserGroup::getGroup)
-                .orElseThrow(() -> new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION));
+                .orElseThrow(() -> new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION)).getGroup();
 
         notificationRepository.save(Notification.createNotification(group, requestDto));
     }
