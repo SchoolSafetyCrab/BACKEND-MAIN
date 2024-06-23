@@ -49,7 +49,7 @@ public class Notification {
         this.endDate = endDate;
     }
 
-    public static Notification createNotification(CreateNotificationRequestDto requestDto, Group group) {
+    public static Notification createNotification(Group group, CreateNotificationRequestDto requestDto) {
         return Notification.builder()
                 .group(group)
                 .title(requestDto.getTitle())
