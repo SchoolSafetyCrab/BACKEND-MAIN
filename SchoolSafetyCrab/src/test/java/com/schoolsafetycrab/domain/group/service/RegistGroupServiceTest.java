@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.*;
 public class RegistGroupServiceTest {
 
     @InjectMocks
-    private GroupService groupService;
+    private GroupStudentService groupStudentService;
 
     @Mock
     private GroupRepository groupRepository;
@@ -68,7 +68,7 @@ public class RegistGroupServiceTest {
         BDDMockito.given(userGroupRepository.countByGroup_GroupId(anyLong())).willReturn(1L);
 
         // when
-        Assertions.assertThatNoException().isThrownBy(() -> groupService.registGroup(authentication, registGroupRequestDto));
+        Assertions.assertThatNoException().isThrownBy(() -> groupStudentService.registGroup(authentication, registGroupRequestDto));
 
         // then
         BDDMockito.then(userGroupRepository).should().existsByUser_UserIdAndGroup_GroupId(student.getUserId(), registGroupRequestDto.getGroupId());
@@ -87,7 +87,7 @@ public class RegistGroupServiceTest {
                 .willReturn(true);
 
         // when
-        Assertions.assertThatThrownBy(() -> groupService.registGroup(authentication, registGroupRequestDto))
+        Assertions.assertThatThrownBy(() -> groupStudentService.registGroup(authentication, registGroupRequestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.DUPLICATED_GROUP_MEMBER_EXCEPTION);
 
@@ -108,7 +108,7 @@ public class RegistGroupServiceTest {
                 .willReturn(Optional.empty());
 
         // when
-        Assertions.assertThatThrownBy(() -> groupService.registGroup(authentication, registGroupRequestDto))
+        Assertions.assertThatThrownBy(() -> groupStudentService.registGroup(authentication, registGroupRequestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.NOT_MATCH_GROUP_CODE_EXCEPTION);
 
@@ -130,7 +130,7 @@ public class RegistGroupServiceTest {
         BDDMockito.given(userGroupRepository.countByGroup_GroupId(anyLong())).willReturn(20L);
 
         // when
-        Assertions.assertThatThrownBy(() -> groupService.registGroup(authentication, registGroupRequestDto))
+        Assertions.assertThatThrownBy(() -> groupStudentService.registGroup(authentication, registGroupRequestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.EXCEED_GROUP_MEMBER_LIMIT_EXCEPTION);
 
