@@ -35,6 +35,7 @@ public class NotificationCommonService {
             throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
 
         notificationRepository.updateStateByEndDate(LocalDate.now());
+
         List<Notification> notificationList = notificationRepository.findByGroup_GroupId(groupId);
 
         List<NotificationListResponseDto> responses = new ArrayList<>();
