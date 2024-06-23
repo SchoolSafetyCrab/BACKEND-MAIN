@@ -33,7 +33,7 @@ public class MessageService {
         message.setTo(requestDto.getPhoneNumber());
         message.setText(text);
 
-        //messageValueConfig.getDefaultMessageService().sendOne(new SingleMessageSendingRequest(message));
+        messageValueConfig.getDefaultMessageService().sendOne(new SingleMessageSendingRequest(message));
     }
 
     private String createMessage(String authCode){
