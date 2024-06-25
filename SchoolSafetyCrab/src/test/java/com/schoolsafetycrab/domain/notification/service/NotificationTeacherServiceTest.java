@@ -26,13 +26,11 @@ import org.springframework.security.core.Authentication;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-
 @ExtendWith(MockitoExtension.class)
-public class NotificationServiceTest {
+public class NotificationTeacherServiceTest {
 
     @InjectMocks
-    private NotificationService notificationService;
+    private NotificationTeacherService notificationTeacherService;
 
     @Mock
     private NotificationRepository notificationRepository;
@@ -73,7 +71,7 @@ public class NotificationServiceTest {
                 .willReturn(Optional.ofNullable(userGroup));
 
         //when
-        Assertions.assertThatNoException().isThrownBy(()->notificationService.createNotification(authentication, createNotificationRequestDto));
+        Assertions.assertThatNoException().isThrownBy(()-> notificationTeacherService.createNotification(authentication, createNotificationRequestDto));
 
         BDDMockito.then(userGroupRepository).should().findByUser_UserIdAndGroup_GroupId(teacher.getUserId(), createNotificationRequestDto.getGroupId());
     }
@@ -88,7 +86,7 @@ public class NotificationServiceTest {
                 .willReturn(Optional.empty());
 
         // when
-        Assertions.assertThatThrownBy(() -> notificationService.createNotification(authentication, createNotificationRequestDto))
+        Assertions.assertThatThrownBy(() -> notificationTeacherService.createNotification(authentication, createNotificationRequestDto))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
 
@@ -109,7 +107,7 @@ public class NotificationServiceTest {
                 .willReturn(true);
 
         //when
-        Assertions.assertThatNoException().isThrownBy(()->notificationService.deleteNotification(authentication, notification.getNotificationId()));
+        Assertions.assertThatNoException().isThrownBy(()-> notificationTeacherService.deleteNotification(authentication, notification.getNotificationId()));
 
         BDDMockito.then(notificationRepository).should().findByNotificationId(notification.getNotificationId());
         BDDMockito.then(userGroupRepository).should().existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(), notification.getGroup().getGroupId());

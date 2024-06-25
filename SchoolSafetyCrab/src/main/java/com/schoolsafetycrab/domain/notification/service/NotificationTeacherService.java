@@ -5,7 +5,6 @@ import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
 import com.schoolsafetycrab.domain.user.model.User;
-import com.schoolsafetycrab.domain.usergroup.model.UserGroup;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
 import com.schoolsafetycrab.global.exception.ExceptionResponse;
@@ -16,13 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class NotificationService {
+public class NotificationTeacherService {
 
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
