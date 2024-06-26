@@ -1,6 +1,7 @@
 package com.schoolsafetycrab.domain.userdevice.model;
 
 import com.schoolsafetycrab.domain.user.model.User;
+import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserDevice {
+public class UserDevice extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
