@@ -5,7 +5,7 @@ import com.schoolsafetycrab.domain.userdevice.model.UserDevice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDeviceRepository extends JpaRepository<UserDevice, Long>, UserDeviceRepositoryCustom {
-    boolean existsByUser_userId(User user);
+    boolean existsByUser_UserId(long userId);
 
     @Override
     long updateDeviceToken(UserDevice userDevice);
