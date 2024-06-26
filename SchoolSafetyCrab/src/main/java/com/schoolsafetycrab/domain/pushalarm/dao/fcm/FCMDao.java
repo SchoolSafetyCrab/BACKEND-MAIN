@@ -2,7 +2,6 @@ package com.schoolsafetycrab.domain.pushalarm.dao.fcm;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.pushalarm.message.responseDto.PushAlarmResponseDto;
 import com.schoolsafetycrab.domain.user.model.User;

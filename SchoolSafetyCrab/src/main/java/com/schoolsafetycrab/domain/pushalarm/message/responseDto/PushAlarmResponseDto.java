@@ -3,7 +3,6 @@ package com.schoolsafetycrab.domain.pushalarm.message.responseDto;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.userdevice.model.UserDevice;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
