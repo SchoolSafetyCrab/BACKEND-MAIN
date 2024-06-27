@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.pushalarm.service;
+package com.schoolsafetycrab.domain.pushnotification.service;
 
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;

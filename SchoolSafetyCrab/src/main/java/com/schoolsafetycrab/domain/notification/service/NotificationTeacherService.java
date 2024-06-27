@@ -4,7 +4,7 @@ import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
-import com.schoolsafetycrab.domain.pushalarm.service.PushAlarmService;
+import com.schoolsafetycrab.domain.pushnotification.service.PushNotificationService;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -24,7 +24,7 @@ public class NotificationTeacherService {
 
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
-    private PushAlarmService pushAlarmService;
+    private PushNotificationService pushNotificationService;
 
     @Transactional
     public void createNotification(Authentication authentication, CreateNotificationRequestDto requestDto) {
@@ -35,7 +35,7 @@ public class NotificationTeacherService {
 
         long notificationId = notificationRepository.save(Notification.createNotification(group, requestDto)).getNotificationId();
 
-        pushAlarmService.pushAlarm(group.getGroupId(), notificationId);
+        pushNotificationService.pushAlarm(group.getGroupId(), notificationId);
 
     }
 
