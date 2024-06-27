@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.pushnotification.message.responseDto;
+package com.schoolsafetycrab.domain.pushnotification.message;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

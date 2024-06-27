@@ -1,6 +1,6 @@
 package com.schoolsafetycrab.domain.pushnotification.controller;
 
-import com.schoolsafetycrab.domain.pushnotification.message.responseDto.SuccessPushNotificationMessage;
+import com.schoolsafetycrab.domain.pushnotification.message.SuccessPushNotificationMessage;
 import com.schoolsafetycrab.domain.pushnotification.requestDto.SaveDeviceTokenRequestDto;
 import com.schoolsafetycrab.domain.pushnotification.service.PushNotificationService;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
