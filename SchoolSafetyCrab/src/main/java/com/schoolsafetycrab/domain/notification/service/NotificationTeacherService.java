@@ -24,7 +24,7 @@ public class NotificationTeacherService {
 
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
-    private PushNotificationService pushNotificationService;
+    private final PushNotificationService pushNotificationService;
 
     @Transactional
     public void createNotification(Authentication authentication, CreateNotificationRequestDto requestDto) {
@@ -35,7 +35,7 @@ public class NotificationTeacherService {
 
         long notificationId = notificationRepository.save(Notification.createNotification(group, requestDto)).getNotificationId();
 
-        pushNotificationService.pushAlarm(group.getGroupId(), notificationId);
+        pushNotificationService.pushNotificationToStudents(group.getGroupId(), notificationId);
 
     }
 

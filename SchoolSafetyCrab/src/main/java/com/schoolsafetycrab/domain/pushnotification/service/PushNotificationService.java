@@ -31,7 +31,7 @@ public class PushNotificationService {
             pushNotificationRepository.save(pushNotification);
     }
 
-    public void pushAlarm(long groupId, long notificationID){
+    public void pushNotificationToStudents(long groupId, long notificationID){
         List<User> students = subjectService.getGroupStudent(groupId);
 
         subjectService.notifyUser(students, notificationID);
