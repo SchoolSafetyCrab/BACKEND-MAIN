@@ -1,5 +1,6 @@
 package com.schoolsafetycrab.domain.pushnotification.model;
 
+import com.schoolsafetycrab.domain.pushnotification.requestDto.SaveDeviceTokenRequestDto;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.baseTimeEntity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -30,7 +31,7 @@ public class PushNotification extends BaseTimeEntity {
         this.deviceToken = deviceToken;
     }
 
-    public static PushNotification createUserDevice(User user, String deviceToken) {
-        return new PushNotification(user, deviceToken);
+    public static PushNotification createUserDevice(User user, SaveDeviceTokenRequestDto requestDto) {
+        return new PushNotification(user, requestDto.getDeviceToken());
     }
 }

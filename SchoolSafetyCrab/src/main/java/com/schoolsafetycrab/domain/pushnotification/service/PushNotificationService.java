@@ -1,9 +1,12 @@
 package com.schoolsafetycrab.domain.pushnotification.service;
 
+import com.schoolsafetycrab.domain.pushnotification.requestDto.SaveDeviceTokenRequestDto;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.pushnotification.model.PushNotification;
 import com.schoolsafetycrab.domain.pushnotification.repository.PushNotificationRepository;
+import com.schoolsafetycrab.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +21,10 @@ public class PushNotificationService {
     private final PushNotificationRepository pushNotificationRepository;
 
     @Transactional
-    public void saveUserDeviceToken(User user, String deviceToken){
-        PushNotification pushNotification = PushNotification.createUserDevice(user, deviceToken);
+    public void saveUserDeviceToken(Authentication authentication, SaveDeviceTokenRequestDto requestDto){
+        User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
+
+        PushNotification pushNotification = PushNotification.createUserDevice(user, requestDto);
         if(pushNotificationRepository.existsByUser_UserId(user.getUserId()))
             pushNotificationRepository.updateDeviceToken(pushNotification);
         else
