@@ -98,7 +98,6 @@ public class SubjectServiceTest {
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.NOT_FOUND_NOTIFICATION_EXCEPTION);
 
-
         // then
         BDDMockito.then(notificationRepository).should().findByNotificationId(notification.getNotificationId());
     }
