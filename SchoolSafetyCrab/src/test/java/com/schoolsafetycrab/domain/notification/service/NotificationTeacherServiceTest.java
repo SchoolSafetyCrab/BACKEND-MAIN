@@ -5,6 +5,7 @@ import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
+import com.schoolsafetycrab.domain.pushnotification.service.PushNotificationService;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.usergroup.model.UserGroup;
@@ -21,16 +22,22 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class NotificationTeacherServiceTest {
 
     @InjectMocks
     private NotificationTeacherService notificationTeacherService;
+
+    @Mock
+    private PushNotificationService pushNotificationService;
 
     @Mock
     private NotificationRepository notificationRepository;
@@ -69,11 +76,15 @@ public class NotificationTeacherServiceTest {
         BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
         BDDMockito.given(userGroupRepository.findByUser_UserIdAndGroup_GroupId(teacher.getUserId(), createNotificationRequestDto.getGroupId()))
                 .willReturn(Optional.ofNullable(userGroup));
+        BDDMockito.given(notificationRepository.save(any(Notification.class))).willReturn(notification);
+
+        BDDMockito.doNothing().when(pushNotificationService).pushNotificationToStudents(group.getGroupId(), notification.getNotificationId());
 
         //when
         Assertions.assertThatNoException().isThrownBy(()-> notificationTeacherService.createNotification(authentication, createNotificationRequestDto));
 
         BDDMockito.then(userGroupRepository).should().findByUser_UserIdAndGroup_GroupId(teacher.getUserId(), createNotificationRequestDto.getGroupId());
+        BDDMockito.then(notificationRepository).should().save(any(Notification.class));
     }
 
     @Test

@@ -84,4 +84,9 @@ public class PushNotificationServiceTest {
 
     }
 
+    @Test
+    @DisplayName("학생들에게 공지 알람 전송")
+    public void 학생들에게_공지_알람_전송_성공_테스트(){
+
+    }
 }
