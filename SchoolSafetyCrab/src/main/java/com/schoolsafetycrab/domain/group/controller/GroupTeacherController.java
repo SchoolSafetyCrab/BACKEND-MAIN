@@ -5,6 +5,7 @@ import com.schoolsafetycrab.domain.group.message.responseDto.GroupMemberResponse
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupCommonService;
 import com.schoolsafetycrab.domain.group.service.GroupTeacherService;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
 import com.schoolsafetycrab.global.util.HttpResponseUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,13 @@ public class GroupTeacherController {
         List<GroupMemberResponseDto> responseDto = groupTeacherService.findGroupMembers(authentication, groupId);
         ResponseEntity<Map<String, Object>> response = responseUtil.createResponse(responseDto);
 
+        return response;
+    }
+
+    @GetMapping("/member/schoolway/group")
+    public ResponseEntity<?> findGroupMemberSchoolWay(Authentication authentication , @RequestParam("groupId") long groupId, @RequestParam("userId") long userId){
+        List<PointResponseDto> responses = groupTeacherService.findGroupMemberSchoolWay(authentication,groupId,userId);
+        ResponseEntity<Map<String,Object>> response = responseUtil.createResponse(responses);
         return response;
     }
 }
