@@ -77,4 +77,19 @@ public class FindGroupMemberSchoolWayTest {
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("그룹 학생 등교길 조회 테스트 선생님이 그룹에 없음 실패")
+    public void 그룹_학생_등교길_조회_실패_테스트_선생님_그룹_존재하지_않음(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
+        BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(),group.getGroupId())).willReturn(false);
+        //when
+        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), teacher.getUserId()))
+                .isInstanceOf(ExceptionResponse.class)
+                        .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
+    }
+
+
 }
