@@ -2,6 +2,7 @@ HELP.md
 
 resources
 application.properties
+FcmServiceAccountKey.json
 
 .gradle
 build/

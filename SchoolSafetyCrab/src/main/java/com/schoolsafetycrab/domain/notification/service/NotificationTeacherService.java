@@ -4,6 +4,7 @@ import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.notification.model.Notification;
 import com.schoolsafetycrab.domain.notification.repository.NotificationRepository;
 import com.schoolsafetycrab.domain.notification.requestDto.CreateNotificationRequestDto;
+import com.schoolsafetycrab.domain.pushnotification.service.PushNotificationService;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
 import com.schoolsafetycrab.global.exception.CustomException;
@@ -23,6 +24,7 @@ public class NotificationTeacherService {
 
     private final UserGroupRepository userGroupRepository;
     private final NotificationRepository notificationRepository;
+    private final PushNotificationService pushNotificationService;
 
     @Transactional
     public void createNotification(Authentication authentication, CreateNotificationRequestDto requestDto) {
@@ -31,7 +33,10 @@ public class NotificationTeacherService {
         Group group = userGroupRepository.findByUser_UserIdAndGroup_GroupId(user.getUserId(), requestDto.getGroupId())
                 .orElseThrow(() -> new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION)).getGroup();
 
-        notificationRepository.save(Notification.createNotification(group, requestDto));
+        long notificationId = notificationRepository.save(Notification.createNotification(group, requestDto)).getNotificationId();
+
+        pushNotificationService.pushNotificationToStudents(group.getGroupId(), notificationId);
+
     }
 
     @Transactional

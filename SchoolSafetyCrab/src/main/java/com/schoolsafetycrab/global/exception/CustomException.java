@@ -23,6 +23,7 @@ public enum CustomException {
     EXCEED_GROUP_MEMBER_LIMIT_EXCEPTION(400,"ExceedGroupMemberLimitException","그룹 인원이 많아 참여할 수 없습니다."),
     DUPLICATED_GROUP_MEMBER_EXCEPTION(400,"DuplicatedGroupMemberException","이미 가입된 그룹입니다."),
     NOT_FOUND_NOTIFICATION_EXCEPTION(400,"NotFoundNotificationException","해당 공지가 존재하지 않습니다."),
+    NOT_FOUND_DEVICETOKEN_EXCEPTION(400,"NotFoundDeviceTokenException","해당 유저의 디바이스 토큰이 존재하지 않습니다."),
 
     //인증 에러 401
     EXPIRED_JWT_EXCEPTION(401,"ExpiredJwtException","토큰이 만료했습니다."),
