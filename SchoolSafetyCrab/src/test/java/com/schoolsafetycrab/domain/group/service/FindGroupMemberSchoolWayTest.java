@@ -72,7 +72,7 @@ public class FindGroupMemberSchoolWayTest {
         BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(student.getUserId(),group.getGroupId())).willReturn(true);
         BDDMockito.given(groupRepository.findSchoolWayByStudent(student.getUserId())).willReturn(schoolWayPoints);
         //when
-        List<PointResponseDto> responses = groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(),teacher.getUserId());
+        List<PointResponseDto> responses = groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(),student.getUserId());
 
         //then
         Assertions.assertThat(responses.size()).isEqualTo(1);
@@ -86,7 +86,7 @@ public class FindGroupMemberSchoolWayTest {
         BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
         BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(),group.getGroupId())).willReturn(false);
         //when
-        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), teacher.getUserId()))
+        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), student.getUserId()))
                 .isInstanceOf(ExceptionResponse.class)
                         .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
     }
@@ -101,7 +101,7 @@ public class FindGroupMemberSchoolWayTest {
         BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(student.getUserId(),group.getGroupId())).willReturn(false);
 
         //when
-        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), teacher.getUserId()))
+        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), student.getUserId()))
                 .isInstanceOf(ExceptionResponse.class)
                 .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
 

@@ -7,6 +7,9 @@ import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.service.GroupCommonService;
 import com.schoolsafetycrab.domain.group.service.GroupTeacherService;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolway.model.SchoolWay;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.Role;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.global.auth.WithMockAuthUser;
@@ -63,6 +66,7 @@ public class GroupTeacherControllerTest {
     private Group group;
     private CreateGroupRequestDto createGroupRequestDto;
     private List<GroupMemberResponseDto> groupMemberResponse;
+    List<PointResponseDto> pointResponse;
 
     @BeforeEach
     public void init(){
@@ -73,6 +77,10 @@ public class GroupTeacherControllerTest {
 
         groupMemberResponse = new ArrayList<>();
         groupMemberResponse.add(GroupMemberResponseDto.createGroupMemberResponseDto(user));
+
+        SchoolWay schoolWay = SchoolWay.createSchoolWay(user);
+        pointResponse = new ArrayList<>();
+        pointResponse.add(PointResponseDto.createPointResponseDto(SchoolWayPoint.createSchoolWayPoint(schoolWay, "1", "2")));
     }
 
 
@@ -115,6 +123,26 @@ public class GroupTeacherControllerTest {
 
         // then
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/member/group/" + group.getGroupId())
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("그룹 선생님 학생 등교길 조회 성공 테스트")
+    @WithMockAuthUser(id="test", roles= Role.ROLE_TEACHER)
+    public void 그룹_학생_등교길_조회_성공_테스트() throws Exception{
+        //given
+        Map<String, Object> mockResponseData = new HashMap<>();
+        mockResponseData.put("data", groupMemberResponse);
+
+        BDDMockito.given(groupTeacherService.findGroupMemberSchoolWay(authentication, group.getGroupId(),user.getUserId())).willReturn(pointResponse);
+        BDDMockito.given(responseUtil.createResponse(groupMemberResponse))
+                .willReturn(ResponseEntity.ok().body(mockResponseData));
+
+        // then
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/teacher/member/schoolway/group?groupId="+group.getGroupId()+"&userId="+user.getUserId())
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON));
 
