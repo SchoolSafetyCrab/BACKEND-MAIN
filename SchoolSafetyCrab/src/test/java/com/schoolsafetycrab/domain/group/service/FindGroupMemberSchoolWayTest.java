@@ -91,5 +91,20 @@ public class FindGroupMemberSchoolWayTest {
                         .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
     }
 
+    @Test
+    @DisplayName("그룹 학생 등교길 조회 테스트 학생 그룹에 없음 실패")
+    public void 그룹_학생_등교길_조회_실패_테스트_학생_그룹_존재하지_않음(){
+        //given
+        BDDMockito.given(authentication.getPrincipal()).willReturn(principalDetails);
+        BDDMockito.given(principalDetails.getUser()).willReturn(teacher);
+        BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(),group.getGroupId())).willReturn(true);
+        BDDMockito.given(userGroupRepository.existsByUser_UserIdAndGroup_GroupId(student.getUserId(),group.getGroupId())).willReturn(false);
 
+        //when
+        Assertions.assertThatThrownBy(() -> groupTeacherService.findGroupMemberSchoolWay(authentication,group.getGroupId(), teacher.getUserId()))
+                .isInstanceOf(ExceptionResponse.class)
+                .hasFieldOrPropertyWithValue("customException", CustomException.ACCESS_DENIEND_EXCEPTION);
+
+        BDDMockito.then(userGroupRepository).should().existsByUser_UserIdAndGroup_GroupId(teacher.getUserId(), group.getGroupId());
+    }
 }
