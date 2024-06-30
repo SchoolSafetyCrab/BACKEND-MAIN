@@ -17,8 +17,9 @@ public class GroupRepositoryImpl implements GroupRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     private QGroup group = QGroup.group;
-    private QSchoolWayPoint schoolWayPoint;
-    private QSchoolWay schoolWay;
+    private QSchoolWayPoint schoolWayPoint = QSchoolWayPoint.schoolWayPoint;
+    private QSchoolWay schoolWay = QSchoolWay.schoolWay;
+
 
     @Override
     public List<Group> findGroupByKeyword(String keyword)  {
