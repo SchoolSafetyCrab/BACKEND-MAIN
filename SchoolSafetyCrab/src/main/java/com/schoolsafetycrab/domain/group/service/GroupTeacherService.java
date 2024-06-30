@@ -6,6 +6,8 @@ import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.repository.GroupRepository;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;
 import com.schoolsafetycrab.domain.group.requestDto.RegistGroupRequestDto;
+import com.schoolsafetycrab.domain.schoolway.message.responseDto.PointResponseDto;
+import com.schoolsafetycrab.domain.schoolwaypoint.model.SchoolWayPoint;
 import com.schoolsafetycrab.domain.user.model.User;
 import com.schoolsafetycrab.domain.usergroup.model.UserGroup;
 import com.schoolsafetycrab.domain.usergroup.repository.UserGroupRepository;
@@ -61,4 +63,22 @@ public class GroupTeacherService {
         return responses;
     }
 
+    public List<PointResponseDto> findGroupMemberSchoolWay(Authentication authentication, long groupId, long userId){
+        User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
+
+        if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(user.getUserId(),groupId))
+            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
+
+        if(!userGroupRepository.existsByUser_UserIdAndGroup_GroupId(userId,groupId))
+            throw new ExceptionResponse(CustomException.ACCESS_DENIEND_EXCEPTION);
+
+        List<SchoolWayPoint> points = groupRepository.findSchoolWayByStudent(userId);
+        List<PointResponseDto> responses = new ArrayList<>();
+
+        for(SchoolWayPoint point : points){
+            responses.add(PointResponseDto.createPointResponseDto(point));
+        }
+
+        return responses;
+    }
 }
