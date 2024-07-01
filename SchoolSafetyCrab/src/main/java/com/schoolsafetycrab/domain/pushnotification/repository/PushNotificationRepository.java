@@ -12,6 +12,4 @@ public interface PushNotificationRepository extends JpaRepository<PushNotificati
 
     @Override
     long updateDeviceToken(PushNotification pushNotification);
-
-
 }

@@ -19,5 +19,4 @@ public class PushNotificationRepositoryImpl implements PushNotificationRepositor
                 .where(qPushNotification.user.eq(pushNotification.getUser()))
                 .execute();
     }
-
 }
