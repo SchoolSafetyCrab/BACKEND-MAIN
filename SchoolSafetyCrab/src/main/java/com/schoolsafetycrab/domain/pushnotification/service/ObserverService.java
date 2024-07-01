@@ -21,8 +21,12 @@ public class ObserverService {
     private final FCMDao fcmDao;
 
     public void notifyUser(User user, Notification notification){
-        PushNotification pushNotification = pushNotificationRepository.findByUser_UserId(user.getUserId())
-                .orElseThrow(() -> new ExceptionResponse(CustomException.NOT_FOUND_DEVICETOKEN_EXCEPTION));
+
+        if(!pushNotificationRepository.existsByUser_UserId(user.getUserId())){
+            return;
+        }
+
+        PushNotification pushNotification = pushNotificationRepository.findByUser_UserId(user.getUserId());
 
         PushNotificationResponseDto pushNotificationResponseDto = PushNotificationResponseDto.createPushNotificationResponseDto(pushNotification, notification);
 

@@ -58,12 +58,14 @@ public class ObserverServiceTest {
     @DisplayName("푸시알림 전송 성공 테스트")
     public void 푸시알림_전송_성공_테스트(){
         // given
-        BDDMockito.given(pushNotificationRepository.findByUser_UserId(user.getUserId())).willReturn(Optional.of(pushNotification));
+        BDDMockito.given(pushNotificationRepository.existsByUser_UserId(user.getUserId())).willReturn(true);
+        BDDMockito.given(pushNotificationRepository.findByUser_UserId(user.getUserId())).willReturn(pushNotification);
 
         // when
         Assertions.assertThatNoException().isThrownBy(() -> observerService.notifyUser(user, notification));
 
         // then
+        BDDMockito.then(pushNotificationRepository).should().existsByUser_UserId(user.getUserId());
         BDDMockito.then(pushNotificationRepository).should().findByUser_UserId(user.getUserId());
         BDDMockito.then(fcmDao).should().pushMessage(BDDMockito.any(PushNotificationResponseDto.class));
     }
@@ -72,13 +74,13 @@ public class ObserverServiceTest {
     @DisplayName("디바이스 토큰 없음 예외 테스트")
     public void 디바이스_토큰_없음_예외_테스트() {
         // given
-        BDDMockito.given(pushNotificationRepository.findByUser_UserId(user.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(pushNotificationRepository.existsByUser_UserId(user.getUserId())).willReturn(false);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> observerService.notifyUser(user, notification))
-                .isInstanceOf(ExceptionResponse.class)
-                .hasFieldOrPropertyWithValue("customException", CustomException.NOT_FOUND_DEVICETOKEN_EXCEPTION);
+        observerService.notifyUser(user, notification);
 
-        BDDMockito.then(pushNotificationRepository).should().findByUser_UserId(user.getUserId());
+        BDDMockito.then(pushNotificationRepository).should().existsByUser_UserId(user.getUserId());
+        BDDMockito.then(pushNotificationRepository).shouldHaveNoMoreInteractions();
+        BDDMockito.then(fcmDao).shouldHaveNoInteractions();
     }
 }
