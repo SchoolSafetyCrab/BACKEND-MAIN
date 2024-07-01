@@ -19,6 +19,7 @@ public class GroupMemberResponseDto {
 
     public GroupMemberResponseDto(long userId, String id, String nickname, String iconImg) {
         this.userId = userId;
+        this.id = id;
         this.nickname = nickname;
         this.iconImg = iconImg;
     }
