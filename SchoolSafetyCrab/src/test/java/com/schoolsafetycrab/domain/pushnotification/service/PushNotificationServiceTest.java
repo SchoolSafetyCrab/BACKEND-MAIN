@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.PushNotification.service;
+package com.schoolsafetycrab.domain.pushnotification.service;
 
 import com.schoolsafetycrab.domain.group.model.Group;
 import com.schoolsafetycrab.domain.group.requestDto.CreateGroupRequestDto;

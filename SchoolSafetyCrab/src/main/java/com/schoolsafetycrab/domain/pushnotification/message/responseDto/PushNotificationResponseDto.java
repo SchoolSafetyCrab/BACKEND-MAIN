@@ -16,7 +16,7 @@ public class PushNotificationResponseDto {
 
     private String detail;
 
-    public PushNotificationResponseDto(String deviceToken, String title, String detail){
+    private PushNotificationResponseDto(String deviceToken, String title, String detail){
         this.deviceToken = deviceToken;
         this.title = title;
         this.detail = detail;
