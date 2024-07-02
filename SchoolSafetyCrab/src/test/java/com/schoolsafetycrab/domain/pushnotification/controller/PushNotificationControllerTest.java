@@ -1,4 +1,4 @@
-package com.schoolsafetycrab.domain.PushNotification.controller;
+package com.schoolsafetycrab.domain.pushnotification.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schoolsafetycrab.domain.notification.message.SuccessNotificationMessage;
